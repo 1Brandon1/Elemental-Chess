@@ -3,6 +3,7 @@ class Game {
 		this.board = new Chessboard(this)
 		// this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
 		this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
+		this.startPosition = 'K7/8/8/8/8/8/8/k7'
 
 		this.handleSquareClick = this.handleSquareClick.bind(this)
 		this.selectedSquare = null
@@ -20,20 +21,6 @@ class Game {
 			white: { kingside: true, queenside: true },
 			black: { kingside: true, queenside: true }
 		}
-
-		this.specialAbilityUsage = {
-			fire: 0,
-			water: 0,
-			earth: 0,
-			air: 0,
-			fireLimit: 1,
-			waterLimit: 2,
-			earthLimit: 2,
-			airLimit: 1
-		}
-
-		this.frozenPiece = null
-		this.fortifedPiece = null
 
 		this.board.draw(this.startPosition)
 		this.enPassantIndex = null
@@ -333,37 +320,6 @@ class Game {
 
 		return !tempBoardInstance.isSquareUnderAttack(kingIndex, this.getOpponentColour(kingColour))
 	}
-
-	//!-------------- Special Abilities --------------
-
-	// prettier-ignore
-	// Uses a special ability
-	useSpecialAbility(piece, coord) {
-        switch (piece.toLowerCase()) {
-            case 'f': this.useFireAbility(coord); break
-            case 'w': this.useWaterAbility(coord); break
-            case 'e': this.useEarthAbility(coord); break
-            case 'a': this.useAirAbility(coord); break
-        }
-    }
-
-	// Uses the Fire Mage’s ability
-	useFireAbility(coord) {
-		const moves = this.calculateMoves(currentPosition, colour, [-11, -10, -9, -1, 1, 9, 10, 11], false)
-	}
-
-	// Uses the Water Mage’s ability
-	useWaterAbility(coord) {}
-
-	// Uses the Earth Golem’s ability
-	useEarthAbility(coord) {}
-
-	// Uses the Air Spirit’s ability
-	useAirAbility(coord) {}
-
-	freezePiece(coord) {}
-
-	fortifyPiece(coord) {}
 
 	//!-------------- Castling and En Passant --------------
 

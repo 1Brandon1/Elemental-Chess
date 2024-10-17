@@ -35,3 +35,5 @@ document.addEventListener('keydown', (event) => {
 // 		game.toggleTurn()
 // 	}
 // }, 1000)
+
+game.board.place('E', 'd5')

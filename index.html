@@ -28,7 +28,7 @@
 					</a>
 				</li>
 
-				<!--! Play button -->
+				<!--! PvP button -->
 				<li class="nav-item">
 					<a class="nav-button">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -37,11 +37,23 @@
 								d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z"
 							></path>
 						</svg>
-						<span class="link-text">Play</span>
+						<span class="link-text">PvP</span>
 					</a>
 				</li>
 
-				<!--! History button -->
+				<!--! Bot button -->
+				<li class="nav-item">
+					<a class="nav-button" href="">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+							<path
+								fill="currentColor"
+								d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z"/							></path>
+						</svg>
+						<span class="link-text">Bot</span>
+					</a>
+				</li>
+
+				<!--! Archive button -->
 				<li class="nav-item">
 					<a class="nav-button">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -50,7 +62,7 @@
 								d="M32 32l448 0c17.7 0 32 14.3 32 32l0 32c0 17.7-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96L0 64C0 46.3 14.3 32 32 32zm0 128l448 0 0 256c0 35.3-28.7 64-64 64L96 480c-35.3 0-64-28.7-64-64l0-256zm128 80c0 8.8 7.2 16 16 16l160 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-160 0c-8.8 0-16 7.2-16 16z"
 							></path>
 						</svg>
-						<span class="link-text">History</span>
+						<span class="link-text">Archive</span>
 					</a>
 				</li>
 
@@ -64,19 +76,6 @@
 							></path>
 						</svg>
 						<span class="link-text">Github</span>
-					</a>
-				</li>
-
-				<!--! Youtube button -->
-				<li class="nav-item">
-					<a class="nav-button" href="">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-							<path
-								fill="currentColor"
-								d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"
-							></path>
-						</svg>
-						<span class="link-text">Youtube</span>
 					</a>
 				</li>
 
@@ -159,8 +158,6 @@
 					</div>
 				</div>
 
-				<button class="special-move-button">Special Move</button>
-
 				<div class="button-container">
 					<button class="board-button" onclick="game.board.flip()">
 						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
@@ -197,8 +194,6 @@
 							></path>
 						</svg>
 					</button>
-
-					<!-- <button class="board-button" ></button> -->
 				</div>
 			</div>
 		</main>
