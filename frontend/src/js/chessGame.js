@@ -2,7 +2,7 @@ class Game {
 	constructor() {
 		this.board = new Chessboard(this)
 		// this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
-		this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
+		// this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
 		this.startPosition = 'K7/8/8/8/8/8/8/k7'
 
 		this.handleSquareClick = this.handleSquareClick.bind(this)
@@ -279,9 +279,26 @@ class Game {
 	}
 
 	// Calculate moves for Earth Golem
+	// calculateEarthMoves(currentPosition, colour) {
+	// 	const queenMoves = [-11, -10, -9, -1, 1, 9, 10, 11]
+	// 	return this.calculateMoves(currentPosition, colour, queenMoves, true).filter((move) => Math.abs(move - currentPosition) <= 30)
+	// }
+
 	calculateEarthMoves(currentPosition, colour) {
-		const queenMoves = [-11, -10, -9, -1, 1, 9, 10, 11]
-		return this.calculateMoves(currentPosition, colour, queenMoves, true).filter((move) => Math.abs(move - currentPosition) <= 30)
+		const validMoves = []
+		const offsets = [-10, -1, 1, 10, -11, -9, 9, 11]
+		for (const offset of offsets) {
+			let newPosition = currentPosition
+			for (let i = 0; i < 3; i++) {
+				// Limit to 3 squares
+				newPosition += offset
+				if (!this.board.isValidBoardIndex(newPosition)) break
+				if (this.board.isSquareOccupiedByAlly(newPosition, colour)) break
+				validMoves.push(newPosition)
+				if (this.board.isSquareOccupiedByOpponent(newPosition, colour)) break
+			}
+		}
+		return validMoves
 	}
 
 	// Calculate moves for Air Spirit
