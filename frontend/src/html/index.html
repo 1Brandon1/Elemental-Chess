@@ -32,7 +32,7 @@
 
 			<!--! PvP button -->
 			<li class="nav-item">
-				<a class="nav-button" onclick="	document.getElementById('confirmationModal').classList.add('show')">
+				<a class="nav-button" onclick="newGame('pvp')">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 						<path fill="currentColor"
 							d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z">
@@ -44,7 +44,7 @@
 
 			<!--! Bot button -->
 			<li class="nav-item">
-				<a class="nav-button" href="">
+				<a class="nav-button" onclick="newGame('bot')">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
 						<path fill="currentColor"
 							d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z" />
@@ -175,9 +175,8 @@
 					</svg>
 				</button>
 
-				<button id="playGameButton" class="board-button"
-					onclick="	document.getElementById('confirmationModal').classList.add('show')">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+				<button class="board-button" onclick="newGame(game.gameType)">
+					<svg xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 448 512">
 						<path fill="currentColor"
 							d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z">
 						</path>
@@ -185,12 +184,30 @@
 				</button>
 			</div>
 
-			<!--! Confirmation Popup Modal (initially hidden) -->
-			<div id="confirmationModal" class="modal hidden">
+			<!--! Play pvp game Modal -->
+			<div id="pvpGameModal" class="modal hidden">
 				<div class="modal-content">
-					<p>Are you sure you want to start the game?</p>
-					<button id="confirmButton">Yes</button>
-					<button id="cancelButton">Cancel</button>
+					<p>Are you sure you want to a new pvp game?</p>
+					<button id="confirmPvPButton" class="confirmButton">Yes</button>
+					<button id="cancelPvPButton" class="cancelButton">Cancel</button>
+				</div>
+			</div>
+
+			<!--! Play bot game Modal -->
+			<div id="botGameModal" class="modal hidden">
+				<div class="modal-content">
+					<p>Are you sure you want to a new bot game?</p>
+					<button id="confirmBotButton" class="confirmButton">Yes</button>
+					<button id="cancelBotButton" class="cancelButton">Cancel</button>
+				</div>
+			</div>
+
+			<!--! Checkmate Modal -->
+			<div id="checkmateModal" class="modal hidden">
+				<div class="modal-content">
+					<p id="winnerText">Checkmate! <span id="winnerName"></span> wins!</p>
+					<button id="playAgainButton">Play Again</button>
+					<button id="saveGameButton">Save Game</button>
 				</div>
 			</div>
 		</div>
@@ -204,8 +221,8 @@
 	<script src="src/js/chessBot.js"></script>
 	<script src="src/js/chessGame.js"></script>
 
-	<script src="src/js/main.js"></script>
 	<script src="src/js/modal.js"></script>
+	<script src="src/js/main.js"></script>
 
 </body>
 

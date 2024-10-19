@@ -1,16 +1,17 @@
 class Game {
 	constructor() {
 		this.board = new Chessboard(this)
-		// this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
+		this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
 		// this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
-		this.startPosition = 'K7/8/8/8/8/8/8/k7'
+		// this.startPosition = 'K7/8/8/8/8/8/8/k7'
 
 		this.handleSquareClick = this.handleSquareClick.bind(this)
 		this.selectedSquare = null
 	}
 
 	// Initializes the game
-	start() {
+	start(gameType = 'pvp') {
+		this.gameType = gameType
 		this.activePlayer = 'white'
 		this.gameOver = false
 		this.availableMoves = []
@@ -68,6 +69,8 @@ class Game {
 		if (this.isKingCheckmated(this.getOpponentColour(this.activePlayer))) {
 			this.gameOver = true
 			console.log('Checkmate!')
+			const winner = this.activePlayer
+			showCheckmateModal(winner)
 		} else if (this.isKingInCheck(this.getOpponentColour(this.activePlayer))) {
 			console.log('Check!')
 		}
@@ -277,12 +280,6 @@ class Game {
 		const specialMoves = [22, 20, 18, 2, -2, -18, -20, -22]
 		return this.calculateMoves(currentPosition, colour, rookMoves.concat(specialMoves), false)
 	}
-
-	// Calculate moves for Earth Golem
-	// calculateEarthMoves(currentPosition, colour) {
-	// 	const queenMoves = [-11, -10, -9, -1, 1, 9, 10, 11]
-	// 	return this.calculateMoves(currentPosition, colour, queenMoves, true).filter((move) => Math.abs(move - currentPosition) <= 30)
-	// }
 
 	calculateEarthMoves(currentPosition, colour) {
 		const validMoves = []

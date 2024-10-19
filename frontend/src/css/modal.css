@@ -31,13 +31,23 @@
 	border-radius: 5px;
 }
 
-#confirmButton {
+.confirmButton {
 	background-color: green;
 	color: white;
 }
 
-#cancelButton {
+.cancelButton {
 	background-color: red;
+	color: white;
+}
+
+#playAgainButton {
+	background-color: green;
+	color: white;
+}
+
+#saveGameButton {
+	background-color: blue;
 	color: white;
 }
 
