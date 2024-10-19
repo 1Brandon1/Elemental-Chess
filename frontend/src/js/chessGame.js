@@ -1,11 +1,12 @@
 class Game {
 	constructor() {
 		this.board = new Chessboard(this)
-		this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
-		// this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
-		// this.startPosition = 'K7/8/8/8/8/8/8/k7'
+		// this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
+		this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
 
 		this.handleSquareClick = this.handleSquareClick.bind(this)
+		this.activePlayerElement = document.getElementById('activePlayer')
+
 		this.selectedSquare = null
 	}
 
@@ -13,6 +14,7 @@ class Game {
 	start(gameType = 'pvp') {
 		this.gameType = gameType
 		this.activePlayer = 'white'
+		this.activePlayerElement.innerHTML = 'white'
 		this.gameOver = false
 		this.availableMoves = []
 		this.moveHistory = []
@@ -82,6 +84,7 @@ class Game {
 	// Switch turn between players
 	toggleTurn() {
 		this.activePlayer = this.getOpponentColour(this.activePlayer)
+		this.activePlayerElement.innerHTML = this.activePlayer
 		console.log(this.displayMoveHistory())
 	}
 

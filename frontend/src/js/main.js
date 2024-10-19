@@ -26,9 +26,11 @@ document.addEventListener('keydown', (event) => {
 	}
 })
 
+// const bot = new Bot(game, 'white')
+
 // setInterval(() => {
-// 	if (game.activePlayer === bot2.colour && !game.gameOver) {
-// 		bot2.makeRandomMove()
+// 	if (game.activePlayer === bot.colour && !game.gameOver) {
+// 		bot.makeRandomMove()
 // 		game.toggleTurn()
 // 	}
 // }, 1000)
