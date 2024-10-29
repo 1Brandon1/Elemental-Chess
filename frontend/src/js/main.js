@@ -26,7 +26,7 @@ document.addEventListener('keydown', (event) => {
 	}
 })
 
-const bot = new Bot(game, 'black', 3)
+const bot = new Bot(game, 'black', 2)
 
 setInterval(() => {
 	if (game.activePlayer === bot.colour && !game.gameOver) {

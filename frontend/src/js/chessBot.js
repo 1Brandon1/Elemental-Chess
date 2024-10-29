@@ -6,20 +6,81 @@ class Bot {
 		this.colour = colour
 		this.depth = depth
 		this.pieceValues = {
-			p: 1, // Pawn
-			n: 3, // Knight
-			b: 3, // Bishop
-			r: 5, // Rook
-			q: 9, // Queen
-			f: 5, // Fire Mage
-			w: 7, // Water Mage
-			e: 5, // Earth Golem
-			a: 9, // Air Spirit
-			k: Infinity // King
+			p: 1,
+			n: 3,
+			b: 3,
+			r: 5,
+			q: 9,
+			f: 5,
+			w: 7,
+			e: 5,
+			a: 9,
+			k: Infinity
+		}
+		this.positionBonus = {
+			p: [
+				[0, 0, 0, 0, 0, 0, 0, 0],
+				[5, 5, 5, 5, 5, 5, 5, 5],
+				[1, 1, 2, 3, 3, 2, 1, 1],
+				[0.5, 0.5, 1, 2.5, 2.5, 1, 0.5, 0.5],
+				[0, 0, 0, 2, 2, 0, 0, 0],
+				[0.5, -0.5, -1, 0, 0, -1, -0.5, 0.5],
+				[0.5, 1, 1, -2, -2, 1, 1, 0.5],
+				[0, 0, 0, 0, 0, 0, 0, 0]
+			],
+			n: [
+				[-5, -4, -3, -3, -3, -3, -4, -5],
+				[-4, -2, 0, 0, 0, 0, -2, -4],
+				[-3, 0, 1, 1.5, 1.5, 1, 0, -3],
+				[-3, 0.5, 1.5, 2, 2, 1.5, 0.5, -3],
+				[-3, 0, 1.5, 2, 2, 1.5, 0, -3],
+				[-3, 0.5, 1, 1.5, 1.5, 1, 0.5, -3],
+				[-4, -2, 0, 0.5, 0.5, 0, -2, -4],
+				[-5, -4, -3, -3, -3, -3, -4, -5]
+			],
+			b: [
+				[-2, -1, -1, -1, -1, -1, -1, -2],
+				[-1, 0, 0, 0, 0, 0, 0, -1],
+				[-1, 0, 0.5, 1, 1, 0.5, 0, -1],
+				[-1, 0.5, 0.5, 1, 1, 0.5, 0.5, -1],
+				[-1, 0, 1, 1, 1, 1, 0, -1],
+				[-1, 1, 1, 1, 1, 1, 1, -1],
+				[-1, 0.5, 0, 0, 0, 0, 0.5, -1],
+				[-2, -1, -1, -1, -1, -1, -1, -2]
+			],
+			r: [
+				[0, 0, 0, 0, 0, 0, 0, 0],
+				[0.5, 1, 1, 1, 1, 1, 1, 0.5],
+				[-0.5, 0, 0, 0, 0, 0, 0, -0.5],
+				[-0.5, 0, 0, 0, 0, 0, 0, -0.5],
+				[-0.5, 0, 0, 0, 0, 0, 0, -0.5],
+				[-0.5, 0, 0, 0, 0, 0, 0, -0.5],
+				[-0.5, 0, 0, 0, 0, 0, 0, -0.5],
+				[0, 0, 0, 0.5, 0.5, 0, 0, 0]
+			],
+			q: [
+				[-2, -1, -1, -0.5, -0.5, -1, -1, -2],
+				[-1, 0, 0, 0, 0, 0, 0, -1],
+				[-1, 0, 0.5, 0.5, 0.5, 0.5, 0, -1],
+				[-0.5, 0, 0.5, 0.5, 0.5, 0.5, 0, -0.5],
+				[0, 0, 0.5, 0.5, 0.5, 0.5, 0, -0.5],
+				[-1, 0.5, 0.5, 0.5, 0.5, 0.5, 0, -1],
+				[-1, 0, 0.5, 0, 0, 0, 0, -1],
+				[-2, -1, -1, -0.5, -0.5, -1, -1, -2]
+			],
+			k: [
+				[-3, -4, -4, -5, -5, -4, -4, -3],
+				[-3, -4, -4, -5, -5, -4, -4, -3],
+				[-3, -4, -4, -5, -5, -4, -4, -3],
+				[-3, -4, -4, -5, -5, -4, -4, -3],
+				[-2, -3, -3, -4, -4, -3, -3, -2],
+				[-1, -2, -2, -2, -2, -2, -2, -1],
+				[2, 2, 0, 0, 0, 0, 2, 2],
+				[2, 3, 1, 0, 0, 1, 3, 2]
+			]
 		}
 	}
 
-	// Make a move using minimax with alpha-beta pruning
 	makeBestMove() {
 		if (this.game.activePlayer === this.colour && !this.game.gameOver) {
 			let bestMove = null
@@ -27,10 +88,7 @@ class Bot {
 			const allMoves = this.game.calculateAllMoves(this.colour)
 
 			allMoves.forEach((move) => {
-				// Simulate the move on a board copy
 				const simulatedBoard = this.simulateMoveOnBoard(this.boardArray, move)
-
-				// Run minimax on the simulated board
 				const score = this.minimax(simulatedBoard, this.depth - 1, -Infinity, Infinity, false)
 				if (score > bestScore) {
 					bestScore = score
@@ -38,97 +96,99 @@ class Bot {
 				}
 			})
 
-			// Execute the best move found, or a random move if no best move was found
-			if (bestMove) {
-				this.board.move(bestMove[0], bestMove[1])
-			} else {
-				// Select a random move
-				const randomMove = allMoves[Math.floor(Math.random() * allMoves.length)]
-				this.board.move(randomMove[0], randomMove[1])
-			}
+			// Execute the best move found or a random move if none
+			const moveToMake = bestMove || allMoves[Math.floor(Math.random() * allMoves.length)]
+			this.board.move(moveToMake[0], moveToMake[1])
 		}
 	}
 
-	// Minimax function with alpha-beta pruning
 	minimax(board, depth, alpha, beta, isMaximizingPlayer) {
 		if (depth === 0 || this.isGameOver(board)) {
 			return this.evaluateBoard(board)
 		}
 
 		const allMoves = this.game.calculateAllMoves(isMaximizingPlayer ? this.colour : this.getOpponentColour())
+		let bestEval = isMaximizingPlayer ? -Infinity : Infinity
 
-		if (isMaximizingPlayer) {
-			let maxEval = -Infinity
-			for (let move of allMoves) {
-				const simulatedBoard = this.simulateMoveOnBoard(board, move)
-				const evaluate = this.minimax(simulatedBoard, depth - 1, alpha, beta, false)
-				maxEval = Math.max(maxEval, evaluate)
-				alpha = Math.max(alpha, evaluate)
-				if (beta <= alpha) break
-			}
-			return maxEval
-		} else {
-			let minEval = Infinity
-			for (let move of allMoves) {
-				const simulatedBoard = this.simulateMoveOnBoard(board, move)
-				const evaluate = this.minimax(simulatedBoard, depth - 1, alpha, beta, true)
-				minEval = Math.min(minEval, evaluate)
-				beta = Math.min(beta, evaluate)
-				if (beta <= alpha) break
-			}
-			return minEval
+		for (const move of allMoves) {
+			const simulatedBoard = this.simulateMoveOnBoard(board, move)
+			const evaluate = this.minimax(simulatedBoard, depth - 1, alpha, beta, !isMaximizingPlayer)
+			bestEval = isMaximizingPlayer ? Math.max(bestEval, evaluate) : Math.min(bestEval, evaluate)
+			if (isMaximizingPlayer) alpha = Math.max(alpha, evaluate)
+			else beta = Math.min(beta, evaluate)
+			if (beta <= alpha) break
 		}
+		return bestEval
 	}
 
-	// Function to simulate a move on a board array and return the new board state
 	simulateMoveOnBoard(originalBoard, move) {
-		// Initialize a new board as a plain object
 		const newBoard = [...originalBoard]
-
 		const [fromCoord, toCoord] = move
-
-		const fromSquareIndex = this.board.coordinateToIndex120(fromCoord)
-		const toSquareIndex = this.board.coordinateToIndex120(toCoord)
-
-		// Move the piece to the new position on the simulated board
-		newBoard[toSquareIndex] = newBoard[fromSquareIndex]
-		newBoard[fromSquareIndex] = ''
+		const fromIndex = this.board.coordinateToIndex120(fromCoord)
+		const toIndex = this.board.coordinateToIndex120(toCoord)
+		newBoard[toIndex] = newBoard[fromIndex]
+		newBoard[fromIndex] = ''
 		return newBoard
 	}
 
 	evaluateBoard(board) {
 		let score = 0
+
 		for (let i = 0; i < board.length; i++) {
 			const piece = board[i]
-			if (/^[prnbqfweaPRNBQFWEA1-8\/]+$/.test(piece)) {
+			if (piece && /^[prnbqfweaPRNBQFWEAkK]+$/.test(piece)) {
 				const pieceValue = this.getPieceValue(piece)
-				score += this.isBotPiece(piece) ? pieceValue : -pieceValue
+				const positionValue = this.getPositionValue(piece, i)
+				score += this.isBotPiece(piece) ? pieceValue + positionValue : -(pieceValue + positionValue)
 			}
 		}
+
+		score += this.evaluateKingSafety(board)
 		return score
 	}
 
-	// Get the value of a piece
-	getPieceValue(piece) {
-		if (piece && typeof piece === 'string') {
-			return this.pieceValues[piece.toLowerCase()] || 0
-		}
-		return 0 // Return 0 if the square is empty or invalid
+	getPositionValue(piece, index) {
+		const pieceType = piece.toLowerCase()
+		const rank = Math.floor(index / 10)
+		const bonusTable = this.positionBonus[pieceType]
+		// console.log(Array.isArray(bonusTable) ? bonusTable[rank] || 0 : bonusTable)
+
+		return Array.isArray(bonusTable) ? bonusTable[rank] || 0 : bonusTable
 	}
 
-	// Check if a piece belongs to the bot
+	evaluateKingSafety(board) {
+		const kingPos = this.findKingPosition(board)
+		const threats = this.calculateThreats(board, kingPos)
+		return threats > 0 ? -threats * 2 : 0 // Adjust penalty for king threats
+	}
+
+	findKingPosition(board) {
+		for (let i = 0; i < board.length; i++) {
+			if (board[i].toLowerCase() === 'k' && this.isBotPiece(board[i])) {
+				return i
+			}
+		}
+		return null
+	}
+
+	calculateThreats(board, kingPos) {
+		// if (kingPos === null) return 0
+		// const opponentMoves = this.game.calculateAllMoves(this.getOpponentColour())
+		// return opponentMoves.filter((move) => this.board.coordinateToIndex120(move[1]) === kingPos).length
+	}
+
+	getPieceValue(piece) {
+		return this.pieceValues[piece.toLowerCase()] || 0
+	}
+
 	isBotPiece(piece) {
-		// Define bot's color by the piece casing or custom rules
 		return this.colour === 'white' ? piece === piece.toUpperCase() : piece === piece.toLowerCase()
 	}
 
-	// Determine if game is over on the simulated board
 	isGameOver(board) {
-		// Implement logic to determine if there’s a checkmate, stalemate, or other end condition
-		return false // Placeholder
+		return false // Placeholder for actual game-over logic
 	}
 
-	// Determine the opponent's color
 	getOpponentColour() {
 		return this.colour === 'white' ? 'black' : 'white'
 	}
