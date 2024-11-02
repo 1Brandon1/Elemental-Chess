@@ -33,7 +33,6 @@ class Chessboard {
 		this.boardArray120 = new Array(120).fill('')
 		this.game = game
 		this.promotionInProgress = false
-		this.initSounds()
 		this.initPromotionOptions()
 	}
 
@@ -49,16 +48,6 @@ class Chessboard {
 				this.getPromotionOption(piece)
 				this.hidePromotionOptions()
 			})
-		})
-	}
-
-	// Initialise sound effects
-	initSounds() {
-		const soundFiles = ['move', 'capture', 'castle', 'check', 'promote']
-		this.soundEffects = new Map()
-		soundFiles.forEach((name) => {
-			const audio = new Audio(`/assets/sounds/${name}.mp3`)
-			this.soundEffects.set(name, audio)
 		})
 	}
 
@@ -99,7 +88,6 @@ class Chessboard {
 		const squareIndex = this.coordinateToIndex120(coordinate)
 		this.boardArray120[squareIndex] = pieceName
 		this.getSquareFromIndex120(squareIndex).innerHTML = pieceHtml
-		this.playSound('move')
 	}
 
 	// Move a piece from one coordinate to another
@@ -115,12 +103,7 @@ class Chessboard {
 		if (!pieceToMove) throw new Error('No piece to move on the source square.')
 
 		const existingPiece = toSquare.querySelector('.piece')
-		if (existingPiece) {
-			this.playSound('capture')
-			toSquare.removeChild(existingPiece)
-		} else {
-			this.playSound('move')
-		}
+		if (existingPiece) toSquare.removeChild(existingPiece)
 
 		toSquare.appendChild(pieceToMove)
 		this.boardArray120[toSquareIndex] = this.boardArray120[fromSquareIndex]
@@ -149,7 +132,6 @@ class Chessboard {
 			this.getSquareFromIndex120(rookToIndex).appendChild(rookToMove)
 			this.boardArray120[rookToIndex] = this.boardArray120[rookFromIndex]
 			this.boardArray120[rookFromIndex] = ''
-			this.playSound('castle')
 		}
 	}
 
@@ -161,7 +143,6 @@ class Chessboard {
 		this.boardArray120[capturedPawnIndex] = ''
 		this.getSquareFromIndex120(capturedPawnIndex).innerHTML = ''
 		this.move(fromCoord, toCoord)
-		this.playSound('capture')
 	}
 
 	// Promote a pawn to a different piece
@@ -183,7 +164,6 @@ class Chessboard {
 
 		this.getSquareFromIndex120(squareIndex).innerHTML = pieceHtml
 		this.boardArray120[squareIndex] = newPiece
-		this.playSound('promote')
 		this.promotionInProgress = false
 	}
 
@@ -422,15 +402,6 @@ class Chessboard {
 	}
 
 	//!-------------- Helpers  --------------
-
-	// Plays a sound effect associated with a action
-	playSound(name) {
-		const sound = this.soundEffects.get(name)
-		if (sound) {
-			sound.currentTime = 0
-			sound.play()
-		}
-	}
 
 	// Find the index of the king for a given colour
 	findKingIndex(colour) {
