@@ -20,7 +20,7 @@ const botGameModal = document.getElementById('botGameModal')
 document.getElementById('confirmBotButton').addEventListener('click', function () {
 	document.getElementById('botGameModal').classList.remove('show')
 	bot = new Bot(game, 'black')
-	game.start('bot')
+	game.start('pvb')
 })
 
 document.getElementById('cancelBotButton').addEventListener('click', function () {

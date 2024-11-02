@@ -136,7 +136,7 @@ class Bot {
 
 		for (let i = 0; i < board.length; i++) {
 			const piece = board[i]
-			if (piece && /^[prnbqfweaPRNBQFWEAkK]+$/.test(piece)) {
+			if (piece && /^[prnbqfweaPRNBQFWEA]+$/.test(piece)) {
 				const pieceValue = this.getPieceValue(piece)
 				const positionValue = this.getPositionValue(piece, i)
 				score += this.isBotPiece(piece) ? pieceValue + positionValue : -(pieceValue + positionValue)
@@ -149,11 +149,18 @@ class Bot {
 
 	getPositionValue(piece, index) {
 		const pieceType = piece.toLowerCase()
-		const rank = Math.floor(index / 10)
 		const bonusTable = this.positionBonus[pieceType]
-		// console.log(Array.isArray(bonusTable) ? bonusTable[rank] || 0 : bonusTable)
 
-		return Array.isArray(bonusTable) ? bonusTable[rank] || 0 : bonusTable
+		// Determine the rank and file based on the 120-square board
+		const rank = Math.floor((index - 20) / 10)
+		const file = (index - 20) % 10
+
+		// Ensure rank and file are within bounds, and return the bonus value
+		if (Array.isArray(bonusTable) && bonusTable[rank] && bonusTable[rank][file] !== undefined) {
+			return bonusTable[rank][file]
+		}
+
+		return 0 // Default to 0 if there's no position bonus available
 	}
 
 	evaluateKingSafety(board) {

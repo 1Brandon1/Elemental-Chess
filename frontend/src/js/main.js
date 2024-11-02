@@ -1,8 +1,9 @@
 const game = new Game()
-game.start('pvp')
+
+game.start('pvb')
 
 function newGame(type) {
-	if (type === 'bot') {
+	if (type === 'pvb') {
 		document.getElementById('botGameModal').classList.add('show')
 	} else {
 		document.getElementById('pvpGameModal').classList.add('show')
@@ -33,4 +34,4 @@ setInterval(() => {
 		bot.makeBestMove()
 		game.toggleTurn()
 	}
-}, 1000)
+}, 2000)
