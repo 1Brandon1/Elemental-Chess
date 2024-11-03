@@ -6,6 +6,7 @@ class Game {
 
 		this.handleSquareClick = this.handleSquareClick.bind(this)
 		this.activePlayerElement = document.getElementById('activePlayer')
+		this.moveLogElement = document.getElementById('moveLogContent')
 
 		this.selectedSquare = null
 	}
@@ -14,11 +15,12 @@ class Game {
 	start(gameType = 'pvp') {
 		this.gameType = gameType
 		this.activePlayer = 'white'
-		this.activePlayerElement.innerHTML = 'white'
+		this.activePlayerElement.innerHTML = 'White'
 		this.gameOver = false
 		this.availableMoves = []
 		this.moveHistory = []
 		this.undoneMoves = []
+		this.moveLogElement.innerHTML = ''
 
 		this.castlingRights = {
 			white: { kingside: true, queenside: true },
@@ -29,7 +31,7 @@ class Game {
 		this.enPassantIndex = null
 
 		if (gameType === 'pvb') {
-			this.bot = new Bot(this, 'black', 2) // Set bot to control 'black' with depth 2
+			this.bot = new Bot(this, 'black', 1) // Set bot to control 'black' with depth 2
 		} else {
 			this.bot = null // No bot for other game types
 		}
@@ -90,7 +92,7 @@ class Game {
 	// Switch turn between players
 	toggleTurn() {
 		this.activePlayer = this.getOpponentColour(this.activePlayer)
-		this.activePlayerElement.innerHTML = this.activePlayer
+		this.activePlayerElement.innerHTML = this.activePlayer.charAt(0).toUpperCase() + this.activePlayer.slice(1)
 		console.log(this.displayMoveHistory())
 
 		// If game type is 'pvb' and it's bot's turn, make the bot play
@@ -109,6 +111,13 @@ class Game {
 		this.board.unhighlightSquares(this.availableMoves)
 		this.selectedSquare = null
 		this.availableMoves = []
+	}
+
+	// Update move log
+	updateMoveLog(fromCoord, toCoord) {
+		const moveDescription = `${fromCoord} - ${toCoord}\n`
+		this.moveLogElement.innerText += moveDescription // Append the new move to the log
+		this.moveLogElement.scrollTop = this.moveLogElement.scrollHeight // Auto-scroll to the bottom
 	}
 
 	//!-------------- Move Management --------------
@@ -142,6 +151,7 @@ class Game {
 		}
 
 		this.moveHistory.push({ piece, fromCoord, toCoord, capturedPiece, capturedCoord, moveType, castlingRightsBefore, enPassantIndexBefore })
+		this.updateMoveLog(fromCoord, toCoord)
 		this.updateCastlingRights(fromCoord, piece)
 	}
 
@@ -446,22 +456,12 @@ class Game {
 		return moveString
 	}
 
-	// Convert move to chess notation
-	convertMoveToChessNotation(move) {
-		let moveNotation = move.piece
-		if (move.capturedPiece) moveNotation += 'x'
-		moveNotation += move.toCoord
-		return moveNotation
-	}
-
 	// Print move history
 	displayMoveHistory() {
 		if (this.moveHistory.length === 0) {
 			return 'No moves have been made yet.'
 		} else {
-			return this.moveHistory
-				.map((move, index) => `${index + 1}. ${this.convertMoveToChessNotation(move)} (${this.convertMoveToString(move)})`)
-				.join('\n')
+			return this.moveHistory.map((move, index) => `${index + 1}. ${this.convertMoveToString(move)}`).join('\n')
 		}
 	}
 

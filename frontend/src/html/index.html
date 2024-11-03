@@ -134,8 +134,16 @@
 
 	<main>
 		<div class="game-container">
-			<p id="turnDisplay"> <span id="activePlayer"></span>'s move</p>
+
 			<div class="chessboard" id="Board"></div>
+
+			<div id="moveLog"
+				style="margin-top: 20px; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto;">
+				<p id="turnDisplay"> <span id="activePlayer"></span>'s move</p>
+				<h3>Move Log</h3>
+				<pre id="moveLogContent"></pre>
+			</div>
+
 
 			<div id="promotionOptions" class="options">
 				<div class="option-content">
