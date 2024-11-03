@@ -27,6 +27,12 @@ class Game {
 
 		this.board.draw(this.startPosition)
 		this.enPassantIndex = null
+
+		if (gameType === 'pvb') {
+			this.bot = new Bot(this, 'black', 2) // Set bot to control 'black' with depth 2
+		} else {
+			this.bot = null // No bot for other game types
+		}
 	}
 
 	//!-------------- Game Flow --------------
@@ -86,6 +92,14 @@ class Game {
 		this.activePlayer = this.getOpponentColour(this.activePlayer)
 		this.activePlayerElement.innerHTML = this.activePlayer
 		console.log(this.displayMoveHistory())
+
+		// If game type is 'pvb' and it's bot's turn, make the bot play
+		if (this.gameType === 'pvb' && this.activePlayer === this.bot.colour) {
+			setTimeout(() => {
+				this.bot.makeBestMove()
+				this.toggleTurn()
+			}, 500) // Small delay to simulate thinking time
+		}
 	}
 
 	// Reset square selection and valid moves

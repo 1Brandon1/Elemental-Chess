@@ -1,6 +1,6 @@
 const game = new Game()
 
-game.start('pvb')
+game.start('pvp')
 
 function newGame(type) {
 	if (type === 'pvb') {
@@ -26,12 +26,3 @@ document.addEventListener('keydown', (event) => {
 			break
 	}
 })
-
-const bot = new Bot(game, 'black', 2)
-
-setInterval(() => {
-	if (game.activePlayer === bot.colour && !game.gameOver) {
-		bot.makeBestMove()
-		game.toggleTurn()
-	}
-}, 2000)
