@@ -20,7 +20,6 @@ class Game {
 		this.availableMoves = []
 		this.moveHistory = []
 		this.undoneMoves = []
-		this.moveLogElement.innerHTML = ''
 
 		this.castlingRights = {
 			white: { kingside: true, queenside: true },
@@ -113,13 +112,6 @@ class Game {
 		this.availableMoves = []
 	}
 
-	// Update move log
-	updateMoveLog(fromCoord, toCoord) {
-		const moveDescription = `${fromCoord} - ${toCoord}\n`
-		this.moveLogElement.innerText += moveDescription // Append the new move to the log
-		this.moveLogElement.scrollTop = this.moveLogElement.scrollHeight // Auto-scroll to the bottom
-	}
-
 	//!-------------- Move Management --------------
 
 	// Make a move
@@ -151,7 +143,6 @@ class Game {
 		}
 
 		this.moveHistory.push({ piece, fromCoord, toCoord, capturedPiece, capturedCoord, moveType, castlingRightsBefore, enPassantIndexBefore })
-		this.updateMoveLog(fromCoord, toCoord)
 		this.updateCastlingRights(fromCoord, piece)
 	}
 

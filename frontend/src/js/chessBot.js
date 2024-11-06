@@ -119,6 +119,16 @@ class Bot {
 				[-2, -1, -1, -1, -1, -1, -1, -2]
 			]
 		}
+
+		if (this.colour !== 'white') {
+			this.reverseBonusTables()
+		}
+	}
+
+	reverseBonusTables() {
+		for (const piece in this.positionBonus) {
+			this.positionBonus[piece] = this.positionBonus[piece].slice().reverse()
+		}
 	}
 
 	makeBestMove() {
