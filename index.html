@@ -54,18 +54,6 @@
 				</a>
 			</li>
 
-			<!--! Archive button -->
-			<li class="nav-item">
-				<a class="nav-button">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-						<path fill="currentColor"
-							d="M32 32l448 0c17.7 0 32 14.3 32 32l0 32c0 17.7-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96L0 64C0 46.3 14.3 32 32 32zm0 128l448 0 0 256c0 35.3-28.7 64-64 64L96 480c-35.3 0-64-28.7-64-64l0-256zm128 80c0 8.8 7.2 16 16 16l160 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-160 0c-8.8 0-16 7.2-16 16z">
-						</path>
-					</svg>
-					<span class="link-text">Archive</span>
-				</a>
-			</li>
-
 			<!--! Github button -->
 			<li class="nav-item">
 				<a class="nav-button" href="https://github.com/1Brandon1/Elemenatal-Chess.git">
@@ -134,28 +122,20 @@
 
 	<main>
 		<div class="game-container">
-
+			<p id="turnDisplay"> <span id="activePlayer"></span>'s move</p>
 			<div class="chessboard" id="Board"></div>
-
-			<div id="moveLog"
-				style="margin-top: 20px; border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: auto;">
-				<p id="turnDisplay"> <span id="activePlayer"></span>'s move</p>
-				<h3>Move Log</h3>
-				<pre id="moveLogContent"></pre>
-			</div>
-
 
 			<div id="promotionOptions" class="options">
 				<div class="option-content">
-					<div class="piece-option" data-piece="Q"><img src="/assets/chessPieces/wQ.svg" alt="Queen" /></div>
-					<div class="piece-option" data-piece="R"><img src="/assets/chessPieces/wR.svg" alt="Rook" /></div>
-					<div class="piece-option" data-piece="B"><img src="/assets/chessPieces/wB.svg" alt="Bishop" /></div>
-					<div class="piece-option" data-piece="N"><img src="/assets/chessPieces/wN.svg" alt="Knight" /></div>
+					<div class="piece-option" data-piece="Q"><img src="assets/chessPieces/wQ.svg" alt="Queen" /></div>
+					<div class="piece-option" data-piece="R"><img src="assets/chessPieces/wR.svg" alt="Rook" /></div>
+					<div class="piece-option" data-piece="B"><img src="assets/chessPieces/wB.svg" alt="Bishop" /></div>
+					<div class="piece-option" data-piece="N"><img src="assets/chessPieces/wN.svg" alt="Knight" /></div>
 
-					<div class="piece-option" data-piece="E"><img src="/assets/chessPieces/wE.svg" alt="Earth" /></div>
-					<div class="piece-option" data-piece="F"><img src="/assets/chessPieces/wF.svg" alt="Fire" /></div>
-					<div class="piece-option" data-piece="W"><img src="/assets/chessPieces/wW.svg" alt="Water" /></div>
-					<div class="piece-option" data-piece="A"><img src="/assets/chessPieces/wA.svg" alt="Air" /></div>
+					<div class="piece-option" data-piece="E"><img src="assets/chessPieces/wE.svg" alt="Earth" /></div>
+					<div class="piece-option" data-piece="F"><img src="assets/chessPieces/wF.svg" alt="Fire" /></div>
+					<div class="piece-option" data-piece="W"><img src="assets/chessPieces/wW.svg" alt="Water" /></div>
+					<div class="piece-option" data-piece="A"><img src="assets/chessPieces/wA.svg" alt="Air" /></div>
 				</div>
 			</div>
 
@@ -196,7 +176,7 @@
 			<!--! Play pvp game Modal -->
 			<div id="pvpGameModal" class="modal hidden">
 				<div class="modal-content">
-					<p>Are you sure you want to a new pvp game?</p>
+					<p>Are you sure you want to a new PvP game?</p>
 					<button id="confirmPvPButton" class="confirmButton">Yes</button>
 					<button id="cancelPvPButton" class="cancelButton">Cancel</button>
 				</div>
@@ -205,7 +185,7 @@
 			<!--! Play bot game Modal -->
 			<div id="botGameModal" class="modal hidden">
 				<div class="modal-content">
-					<p>Are you sure you want to a new bot game?</p>
+					<p>Are you sure you want to a new PvB game?</p>
 					<button id="confirmBotButton" class="confirmButton board-button">Yes</button>
 					<button id="cancelBotButton" class="cancelButton board-button">Cancel</button>
 				</div>

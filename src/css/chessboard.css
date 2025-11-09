@@ -93,8 +93,8 @@
 @media only screen and (max-width: 790px) {
 	.chessboard {
 		display: grid;
-		grid-template-columns: repeat(8, 12vw);
-		grid-template-rows: repeat(8, 12vw);
+		grid-template-columns: repeat(8, 10vw);
+		grid-template-rows: repeat(8, 10vw);
 	}
 
 	.options {

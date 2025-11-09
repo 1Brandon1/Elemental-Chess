@@ -26,9 +26,9 @@ main {
 }
 
 .game-container {
-	/* position: fixed; */
 	display: flex;
-	gap: 1rem;
+	flex-direction: row;
+	/* gap: 10px; */
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;

@@ -1,8 +1,15 @@
 class Game {
 	constructor() {
 		this.board = new Chessboard(this)
-		this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR'
-		// this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
+		// this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR' // Default positioning
+		this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW' // Elemantal
+
+		// this.startPosition = '4k2r/6r1/8/8/8/8/3R4/R3K3' // Castling test
+
+		// this.startPosition = 'k7/8/4A3/4F3/4W3/4E3/8/7K' // Fire test
+		// this.startPosition = 'k7/8/8/4W3/8/8/8/7K' // Water test
+		// this.startPosition = 'k7/8/8/4E3/8/8/8/7K' // Earth test
+		// this.startPosition = 'k7/8/8/4A3/8/8/8/7K' // Air test
 
 		this.handleSquareClick = this.handleSquareClick.bind(this)
 		this.activePlayerElement = document.getElementById('activePlayer')
@@ -101,6 +108,7 @@ class Game {
 				this.toggleTurn()
 			}, 500) // Small delay to simulate thinking time
 		}
+		// if (this.gameType === 'pvp') this.board.flip()
 	}
 
 	// Reset square selection and valid moves
