@@ -1,78 +1,75 @@
-# Elemental Chess
+# ♟️ Elemental Chess
 
-Welcome to Elemental Chess, a dynamic and innovative variant of the classic game of chess! Elemental Chess introduces new pieces alongside the standard chess pieces, enhancing strategic depth and player engagement. This project aims to reimagine traditional chess, providing a thrilling gaming experience for players of all skill levels.
+**Elemental Chess** is a creative twist on classic chess — introducing four **elemental pieces** that add new layers of strategy and excitement.  
+Play instantly in your browser, no installation required.
 
-## New Pieces and Their Abilities
+👉 **Play now:** [**Elemental Chess on GitHub Pages**](https://1brandon1.github.io/Elemental-Chess/)
 
-1. **Fire Mage**:
+---
 
-    - Moves like a knight but can also move one square in any direction.
+## 🌟 Features
 
-2. **Water Mage**:
+-   Unique **elemental chess pieces** with custom movement patterns
+-   Fully playable in the browser — **no downloads or setup**
+-   Clean, intuitive **HTML/CSS/JavaScript** interface
+-   Compatible with desktop and mobile devices
+-   Optional pawn promotion to any elemental piece
 
-    - Moves like a rook but can also move two squares in any direction.
+---
 
-3. **Earth Golem**:
+## 🌪️ Elemental Pieces
 
-    - Moves like a queen but can only move up to three squares in any direction.
+| Piece              | Ability                                                        |
+| :----------------- | :------------------------------------------------------------- |
+| 🔥 **Fire Mage**   | Moves like a **Knight**, plus **one square in any direction**  |
+| 💧 **Water Mage**  | Moves like a **Rook**, plus **two squares in any direction**   |
+| 🪨 **Earth Golem** | Moves like a **Queen**, but only up to **three squares**       |
+| 🌬️ **Air Spirit**  | Moves like a **Bishop**, plus **two squares in any direction** |
 
-4. **Air Spirit**:
+---
 
-    - Moves like a bishop but can also move two squares in any direction.
+## 🧩 Board Setup
 
-## Setup
+-   Standard chess setup, with new pieces placed as follows:
+    -   **Fire Mage:** b1 (White) & b8 (Black)
+    -   **Water Mage:** h1 (White) & h8 (Black)
+    -   **Earth Golem:** d1 (White) & d8 (Black)
+    -   **Air Spirit:** f1 (White) & f8 (Black)
 
--   The new pieces are placed in specific positions, while the rest of the board is set up as in standard chess.
--   Positions:
-    -   Fire Mage on b1 (White) and b8 (Black)
-    -   Water Mage on h1 (White) and h8 (Black)
-    -   Earth Golem on d1 (White) and d8 (Black)
-    -   Air Spirit on f1 (White) and f8 (Black)
+---
 
-## Rules
+## ⚔️ Rules & Gameplay
 
-1. **Piece Movement and Capture**:
+1. **Movement & Capture**
 
-    - Standard pieces (king, queen, rook, bishop, knight, and pawns) move and capture as usual.
-    - New pieces move and capture according to their descriptions above.
+    - Standard pieces follow traditional chess rules.
+    - Elemental pieces follow their special movement rules.
 
-2. **Check and Checkmate**:
+2. **Check & Checkmate**
 
-    - Check and checkmate rules remain the same as in standard chess.
-    - Special abilities can be used to escape check if applicable (e.g., Air Spirit teleporting).
+    - Check and checkmate apply as in standard chess.
+    - Elemental abilities can create new tactical escapes.
 
-3. **Pawn Promotion**:
+3. **Pawn Promotion**
+    - Pawns may promote to any **standard or elemental** piece.
 
-    - In addition to promoting to a queen, rook, bishop, or knight, pawns can also promote to any of the new pieces (Fire Mage, Water Mage, Earth Golem, Air Spirit).
+---
 
-## Setup Guide
+## 🧠 Built With
 
-To start playing Elemental Chess, follow these simple steps:
+-   **HTML5**
+-   **CSS3**
+-   **JavaScript (ES6)**
+-   Hosted on **GitHub Pages**
 
-1. Clone the repository to your local machine:
+---
 
-    ```bash
-    git clone https://github.com/1Brandon1/Elemental-Chess.git
-    ```
+## 🚀 How to Play Locally
 
-2. Navigate to the project directory:
+You can also clone the project to play offline:
 
-    ```bash
-    cd Elemental-Chess
-    ```
-
-3. Install Node.js dependencies using npm:
-
-    ```bash
-    npm install
-    ```
-
-4. Start the local server using Express.js:
-
-    ```bash
-    npm start
-    ```
-
-5. Open your web browser and navigate to `http://localhost:3000` to launch the game.
-
-6. Enjoy playing Elemental Chess with your friends or against the computer!
+```bash
+git clone https://github.com/1Brandon1/Elemental-Chess.git
+cd Elemental-Chess
+open index.html
+```
