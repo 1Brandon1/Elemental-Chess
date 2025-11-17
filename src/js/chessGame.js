@@ -4,13 +4,6 @@ class Game {
 		// this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR' // Default positioning
 		this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW' // Elemantal
 
-		// this.startPosition = '4k2r/6r1/8/8/8/8/3R4/R3K3' // Castling test
-
-		// this.startPosition = 'k7/8/4A3/4F3/4W3/4E3/8/7K' // Fire test
-		// this.startPosition = 'k7/8/8/4W3/8/8/8/7K' // Water test
-		// this.startPosition = 'k7/8/8/4E3/8/8/8/7K' // Earth test
-		// this.startPosition = 'k7/8/8/4A3/8/8/8/7K' // Air test
-
 		this.handleSquareClick = this.handleSquareClick.bind(this)
 		this.activePlayerElement = document.getElementById('activePlayer')
 		this.moveLogElement = document.getElementById('moveLogContent')
@@ -307,6 +300,7 @@ class Game {
 		return this.calculateMoves(currentPosition, colour, rookMoves.concat(specialMoves), false)
 	}
 
+	// Calculate moves for Earth Golem
 	calculateEarthMoves(currentPosition, colour) {
 		const validMoves = []
 		const offsets = [-10, -1, 1, 10, -11, -9, 9, 11]

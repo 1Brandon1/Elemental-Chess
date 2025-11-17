@@ -1,6 +1,6 @@
 # ♟️ Elemental Chess
 
-**Elemental Chess** is a creative twist on classic chess — introducing four **elemental pieces** that add new layers of strategy and excitement.  
+**Elemental Chess** is a creative twist on classic chess - introducing four **elemental pieces** that add new layers of strategy and excitement.  
 Play instantly in your browser, no installation required.
 
 👉 **Play now:** [**Elemental Chess on GitHub Pages**](https://1brandon1.github.io/Elemental-Chess/)
@@ -10,7 +10,7 @@ Play instantly in your browser, no installation required.
 ## 🌟 Features
 
 -   Unique **elemental chess pieces** with custom movement patterns
--   Fully playable in the browser — **no downloads or setup**
+-   Fully playable in the browser - **no downloads or setup**
 -   Clean, intuitive **HTML/CSS/JavaScript** interface
 -   Compatible with desktop and mobile devices
 -   Optional pawn promotion to any elemental piece

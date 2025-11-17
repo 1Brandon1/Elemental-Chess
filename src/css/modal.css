@@ -1,7 +1,7 @@
-/* !styling for the modal */
+/* !---------- Modal Styles ---------- */
 .modal {
 	z-index: 50;
-	display: none; /* Initially hidden */
+	display: none;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -12,7 +12,6 @@
 	align-items: center;
 }
 
-/* Modal content box */
 .modal-content {
 	background-color: var(--bg-primary);
 	padding: 2em;
@@ -21,7 +20,6 @@
 	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* Buttons inside the modal */
 .modal-content button {
 	margin: 10px;
 	padding: 10px 20px;

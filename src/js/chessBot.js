@@ -5,18 +5,7 @@ class Bot {
 		this.boardArray = this.board.boardArray120
 		this.colour = colour
 		this.depth = depth
-		this.pieceValues = {
-			p: 1,
-			n: 3,
-			b: 3,
-			r: 5,
-			q: 9,
-			f: 5,
-			w: 7,
-			e: 5,
-			a: 9,
-			k: Infinity
-		}
+		this.pieceValues = { p: 1, n: 3, b: 3, r: 5, q: 9, f: 5, w: 7, e: 5, a: 9, k: Infinity }
 		this.positionBonus = {
 			p: [
 				[0, 0, 0, 0, 0, 0, 0, 0],
