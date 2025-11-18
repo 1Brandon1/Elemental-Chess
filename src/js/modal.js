@@ -13,6 +13,9 @@ const cancelBotButton = document.getElementById('cancelBotButton')
 const winnerNameElement = document.getElementById('winnerName')
 const playAgainButton = document.getElementById('playAgainButton')
 
+const rulesModal = document.getElementById('rulesModal')
+const closeRulesButton = document.getElementById('closeRulesButton')
+
 //!--------------  Utility --------------
 
 function hideModal(modal) {
@@ -56,4 +59,14 @@ function hideCheckmateModal() {
 playAgainButton.addEventListener('click', () => {
 	hideCheckmateModal()
 	game.start()
+})
+
+//!--------------  Rules Modal --------------
+
+function openRules() {
+	rulesModal.classList.add('show')
+}
+
+closeRulesButton.addEventListener('click', () => {
+	hideModal(rulesModal)
 })

@@ -1,55 +1,105 @@
-/* !---------- Modal Styles ---------- */
+/* !---------- Modal Base ---------- */
 .modal {
-	z-index: 50;
-	display: none;
 	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+	inset: 0;
+	display: none;
 	justify-content: center;
 	align-items: center;
+	z-index: 50;
+
+	background: rgba(0, 0, 0, 0.5); /* dim background */
+	backdrop-filter: blur(2px); /* subtle blur */
 }
 
+.modal.show {
+	display: flex;
+}
+
+/* !---------- Modal Content ---------- */
 .modal-content {
-	background-color: var(--bg-primary);
+	width: 50%;
+	max-width: 700px;
+	background: var(--bg-primary);
 	padding: 2em;
-	border-radius: 10px;
+	border-radius: 12px;
 	text-align: center;
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+	animation: modal-pop 0.2s ease-out;
 }
 
+/* Pop animation */
+@keyframes modal-pop {
+	from {
+		transform: scale(0.95);
+		opacity: 0;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* !---------- Buttons ---------- */
 .modal-content button {
-	margin: 10px;
-	padding: 10px 20px;
+	margin: 12px;
+	padding: 10px 24px;
 	font-size: 1rem;
 	cursor: pointer;
 	border: none;
-	border-radius: 5px;
+	border-radius: 6px;
+	transition: 0.15s ease;
 }
 
 .confirmButton {
-	background-color: green;
+	background: #28a745;
 	color: white;
+}
+
+.confirmButton:hover {
+	background: #218838;
 }
 
 .cancelButton {
-	background-color: red;
+	background: #d9534f;
 	color: white;
 }
 
-#playAgainButton {
-	background-color: green;
-	color: white;
+.cancelButton:hover {
+	background: #c9302c;
 }
 
-#saveGameButton {
-	background-color: blue;
-	color: white;
+/* !---------- Rules Content ---------- */
+.rules-text {
+	max-height: 60vh;
+	overflow-y: auto;
+	font-size: 1rem;
+	line-height: 1.5;
+	padding-right: 4px; /* keeps scrollbar from overlapping text */
 }
 
-/* Show the modal when it's active */
-.modal.show {
-	display: flex;
+/* Table styling */
+.rules-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 1em 0;
+}
+
+.rules-table th,
+.rules-table td {
+	border: 1px solid var(--bg-secondary);
+	padding: 8px 10px;
+	text-align: left;
+}
+
+.rules-table th {
+	background: var(--bg-secondary);
+	font-weight: bold;
+}
+
+/* Remove bullets globally inside rules modal text */
+.rules-text ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
 }

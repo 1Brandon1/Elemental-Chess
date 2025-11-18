@@ -47,12 +47,25 @@
 				<a class="nav-button" onclick="newGame('pvb')">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
 						<path fill="currentColor"
-							d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z" />
+							d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z">
 						</path>
 					</svg>
 					<span class="link-text">Bot</span>
 				</a>
 			</li>
+
+			<!--! Rules button -->
+			<li class="nav-item">
+				<a class="nav-button" onclick="openRules()">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+						<path fill="currentColor"
+							d="M0 112C0 70.5 31.6 36.4 72 32.4l0-.4 280 0c53 0 96 43 96 96l0 176-176 0c-39.8 0-72 32.2-72 72l0 60c0 24.3-19.7 44-44 44s-44-19.7-44-44l0-228-64 0c-26.5 0-48-21.5-48-48l0-48zM236.8 480c7.1-13.1 11.2-28.1 11.2-44l0-60c0-13.3 10.7-24 24-24l248 0c13.3 0 24 10.7 24 24l0 24c0 44.2-35.8 80-80 80l-227.2 0zM80 80c-17.7 0-32 14.3-32 32l0 48 64 0 0-48c0-17.7-14.3-32-32-32z">
+						</path>
+					</svg>
+					<span class="link-text">Rules</span>
+				</a>
+			</li>
+
 
 			<!--! Github button -->
 			<li class="nav-item">
@@ -195,9 +208,74 @@
 			<div id="checkmateModal" class="modal hidden">
 				<div class="modal-content">
 					<p id="winnerText">Checkmate! <span id="winnerName"></span> wins!</p>
-					<button id="playAgainButton" class="board-button">Play Again</button>
+					<button id="playAgainButton" class="confirmButton">Play Again</button>
 				</div>
 			</div>
+
+			<!--! Rules Modal -->
+			<div id="rulesModal" class="modal hidden">
+				<div class="modal-content">
+					<h2>Game Rules</h2>
+
+					<div class="rules-text">
+
+						<h3>🌪️ Elemental Pieces</h3>
+						<table class="rules-table">
+							<tr>
+								<th>Piece</th>
+								<th>Ability</th>
+							</tr>
+							<tr>
+								<td>🔥 Fire Mage</td>
+								<td>Moves like a Knight + one square in any direction</td>
+							</tr>
+							<tr>
+								<td>💧 Water Mage</td>
+								<td>Moves like a Rook + two squares in any direction</td>
+							</tr>
+							<tr>
+								<td>🪨 Earth Golem</td>
+								<td>Moves like a Queen, but only up to three squares</td>
+							</tr>
+							<tr>
+								<td>🌬️ Air Spirit</td>
+								<td>Moves like a Bishop + two squares in any direction</td>
+							</tr>
+						</table>
+
+						<h3>🧩 Board Setup</h3>
+						<ul>
+							<li><strong>Fire Mage:</strong> b1 (White) & b8 (Black)</li>
+							<li><strong>Water Mage:</strong> h1 (White) & h8 (Black)</li>
+							<li><strong>Earth Golem:</strong> d1 (White) & d8 (Black)</li>
+							<li><strong>Air Spirit:</strong> f1 (White) & f8 (Black)</li>
+						</ul>
+
+						<h3>⚔️ Rules & Gameplay</h3>
+						<p><strong>Movement & Capture:</strong></p>
+						<ul>
+							<li>Standard pieces follow traditional chess rules.</li>
+							<li>Elemental pieces use their special movement abilities.</li>
+						</ul>
+
+						<p><strong>Check & Checkmate:</strong></p>
+						<ul>
+							<li>Check and checkmate work exactly as in standard chess.</li>
+							<li>Elemental abilities can create new tactical escapes.</li>
+						</ul>
+
+						<p><strong>Pawn Promotion:</strong></p>
+						<ul>
+							<li>Pawns may promote to <em>any</em> standard or elemental piece.</li>
+						</ul>
+
+					</div>
+
+
+					<button id="closeRulesButton" class="cancelButton">Close</button>
+				</div>
+			</div>
+
 		</div>
 
 
