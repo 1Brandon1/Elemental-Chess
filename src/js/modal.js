@@ -1,59 +1,59 @@
-//!-------------- New PvP Game Modal --------------
+//!-------------- Modal Elements --------------
 
-// Elements
-const confirmPvPButton = document.getElementById('confirmPvPButton')
 const pvpGameModal = document.getElementById('pvpGameModal')
+const botGameModal = document.getElementById('botGameModal')
+const checkmateModal = document.getElementById('checkmateModal')
 
-// Confirm PvP
-document.getElementById('confirmPvPButton').addEventListener('click', function () {
-	document.getElementById('pvpGameModal').classList.remove('show')
+const confirmPvPButton = document.getElementById('confirmPvPButton')
+const cancelPvPButton = document.getElementById('cancelPvPButton')
+
+const confirmBotButton = document.getElementById('confirmBotButton')
+const cancelBotButton = document.getElementById('cancelBotButton')
+
+const winnerNameElement = document.getElementById('winnerName')
+const playAgainButton = document.getElementById('playAgainButton')
+
+//!--------------  Utility --------------
+
+function hideModal(modal) {
+	modal.classList.remove('show')
+}
+
+//!--------------  PvP Modal --------------
+
+confirmPvPButton.addEventListener('click', () => {
+	hideModal(pvpGameModal)
 	game.start('pvp')
 })
 
-// Cancel PvP
-document.getElementById('cancelPvPButton').addEventListener('click', function () {
-	document.getElementById('pvpGameModal').classList.remove('show')
+cancelPvPButton.addEventListener('click', () => {
+	hideModal(pvpGameModal)
 })
 
-//!-------------- New Bot Game Modal --------------
+//!--------------  Bot Modal --------------
 
-// Elements
-const confirmBotButton = document.getElementById('confirmBotButton')
-const botGameModal = document.getElementById('botGameModal')
-
-// Confirm Bot Game
-document.getElementById('confirmBotButton').addEventListener('click', function () {
-	document.getElementById('botGameModal').classList.remove('show')
+confirmBotButton.addEventListener('click', () => {
+	hideModal(botGameModal)
 	bot = new Bot(game, 'black')
 	game.start('pvb')
 })
 
-// Cancel Bot Game
-document.getElementById('cancelBotButton').addEventListener('click', function () {
-	document.getElementById('botGameModal').classList.remove('show')
+cancelBotButton.addEventListener('click', () => {
+	hideModal(botGameModal)
 })
 
-//!-------------- Checkmate Modal --------------
+//!--------------  Checkmate Modal --------------
 
-// Elements
-const checkmateModal = document.getElementById('checkmateModal')
-const winnerNameElement = document.getElementById('winnerName')
-const playAgainButton = document.getElementById('playAgainButton')
-const saveGameButton = document.getElementById('saveGameButton')
-
-// Show checkmate modal
 function showCheckmateModal(winner) {
 	winnerNameElement.textContent = winner
 	checkmateModal.classList.add('show')
 }
 
-// Hide checkmate modal
 function hideCheckmateModal() {
-	checkmateModal.classList.remove('show')
+	hideModal(checkmateModal)
 }
 
-// Play Again
-playAgainButton.addEventListener('click', function () {
+playAgainButton.addEventListener('click', () => {
 	hideCheckmateModal()
 	game.start()
 })
