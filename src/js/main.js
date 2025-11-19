@@ -1,19 +1,6 @@
 const game = new Game()
 
-game.start('pvp')
-
-function setMode(mode) {
-	game.mode = mode
-	console.log('Game mode set to:', mode)
-}
-
-function newGame(type) {
-	if (type === 'pvb') {
-		document.getElementById('botGameModal').classList.add('show')
-	} else {
-		document.getElementById('pvpGameModal').classList.add('show')
-	}
-}
+game.start('pvp', 'elemental')
 
 document.addEventListener('keydown', (event) => {
 	switch (event.key) {

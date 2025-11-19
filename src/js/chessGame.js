@@ -1,19 +1,18 @@
 class Game {
 	constructor() {
 		this.board = new Chessboard(this)
-		// this.startPosition = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR' // Default positioning
-		this.startPosition = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW' // Elemantal
+		this.classicFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR' // Default positioning
+		this.elementalFen = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
 
 		this.handleSquareClick = this.handleSquareClick.bind(this)
 		this.activePlayerElement = document.getElementById('activePlayer')
-		this.moveLogElement = document.getElementById('moveLogContent')
 
 		this.selectedSquare = null
 	}
 
 	// Initializes the game
-	start(gameType = 'pvp') {
-		this.gameType = gameType
+	start(gameMode = 'pvp', gameType = 'elemental') {
+		this.gameMode = gameMode
 		this.activePlayer = 'white'
 		this.activePlayerElement.innerHTML = 'White'
 		this.gameOver = false
@@ -21,19 +20,15 @@ class Game {
 		this.moveHistory = []
 		this.undoneMoves = []
 
+		this.enPassantIndex = null
 		this.castlingRights = {
 			white: { kingside: true, queenside: true },
 			black: { kingside: true, queenside: true }
 		}
 
+		this.startPosition = gameType === 'elemental' ? this.elementalFen : this.classicFen
+		this.bot = gameMode === 'pvb' ? new Bot(this, 'black', 1) : null
 		this.board.draw(this.startPosition)
-		this.enPassantIndex = null
-
-		if (gameType === 'pvb') {
-			this.bot = new Bot(this, 'black', 1) // Set bot to control 'black' with depth 2
-		} else {
-			this.bot = null // No bot for other game types
-		}
 	}
 
 	//!-------------- Game Flow --------------
@@ -95,13 +90,13 @@ class Game {
 		console.log(this.displayMoveHistory())
 
 		// If game type is 'pvb' and it's bot's turn, make the bot play
-		if (this.gameType === 'pvb' && this.activePlayer === this.bot.colour) {
+		if (this.gameMode === 'pvb' && this.activePlayer === this.bot.colour) {
 			setTimeout(() => {
 				this.bot.makeBestMove()
 				this.toggleTurn()
 			}, 500) // Small delay to simulate thinking time
 		}
-		// if (this.gameType === 'pvp') this.board.flip()
+		// if (this.gameMode === 'pvp') this.board.flip()
 	}
 
 	// Reset square selection and valid moves

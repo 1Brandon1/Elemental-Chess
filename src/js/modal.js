@@ -22,11 +22,21 @@ function hideModal(modal) {
 	modal.classList.remove('show')
 }
 
+function newGame(type) {
+	const modal = type === 'pvb' ? botGameModal : pvpGameModal
+	modal.classList.add('show')
+}
+
 //!--------------  PvP Modal --------------
 
-confirmPvPButton.addEventListener('click', () => {
+document.getElementById('pvpClassicButton').addEventListener('click', () => {
 	hideModal(pvpGameModal)
-	game.start('pvp')
+	game.start('pvp', 'classic')
+})
+
+document.getElementById('pvpElementalButton').addEventListener('click', () => {
+	hideModal(pvpGameModal)
+	game.start('pvp', 'elemental')
 })
 
 cancelPvPButton.addEventListener('click', () => {
@@ -35,10 +45,14 @@ cancelPvPButton.addEventListener('click', () => {
 
 //!--------------  Bot Modal --------------
 
-confirmBotButton.addEventListener('click', () => {
+document.getElementById('botClassicButton').addEventListener('click', () => {
 	hideModal(botGameModal)
-	bot = new Bot(game, 'black')
-	game.start('pvb')
+	game.start('pvb', 'classic')
+})
+
+document.getElementById('botElementalButton').addEventListener('click', () => {
+	hideModal(botGameModal)
+	game.start('pvb', 'elemental')
 })
 
 cancelBotButton.addEventListener('click', () => {
