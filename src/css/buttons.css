@@ -1,12 +1,12 @@
 /* !---------- Board Button Styles ---------- */
 
 .button-container {
-	width: 100%;
+	background: var(--bg-primary);
+	padding: 10px 14px;
+	border-radius: 10px;
 	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	gap: 100px;
+	gap: 14px;
+	margin-top: 10px;
 }
 
 .board-button {

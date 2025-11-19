@@ -87,14 +87,23 @@
 	background-color: #444;
 }
 
+#turnDisplay {
+	background: var(--bg-primary);
+	padding: 8px 5px;
+	text-align: center;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	border-radius: 10px;
+}
+
 /* !---------- Media Queries ---------- */
 
 /* Small screens */
 @media only screen and (max-width: 790px) {
 	.chessboard {
 		display: grid;
-		grid-template-columns: repeat(8, 10vw);
-		grid-template-rows: repeat(8, 10vw);
+		grid-template-columns: repeat(8, 12vw);
+		grid-template-rows: repeat(8, 12vw);
 	}
 
 	.options {
@@ -107,8 +116,8 @@
 @media only screen and (min-width: 790px) {
 	.chessboard {
 		display: grid;
-		grid-template-columns: repeat(8, 11vh);
-		grid-template-rows: repeat(8, 11vh);
+		grid-template-columns: repeat(8, 10vh);
+		grid-template-rows: repeat(8, 10vh);
 	}
 
 	.options {
