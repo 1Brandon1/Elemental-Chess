@@ -41,32 +41,38 @@
 }
 
 /* !---------- Buttons ---------- */
-.modal-content button {
-	margin: 12px;
-	padding: 10px 24px;
+.button {
+	padding: 12px 24px;
+	border-radius: 8px;
+	border: none;
 	font-size: 1rem;
 	cursor: pointer;
-	border: none;
-	border-radius: 6px;
-	transition: 0.15s ease;
+	transition: 0.2s ease;
+	margin: 0.4rem;
 }
 
-.confirmButton {
-	background: #28a745;
+.btn-classic {
+	background: #6b7280;
 	color: white;
 }
-
-.confirmButton:hover {
-	background: #218838;
+.btn-classic:hover {
+	opacity: 0.85;
 }
 
-.cancelButton {
-	background: #d9534f;
+.btn-elemental {
+	background: #60a5fa;
 	color: white;
 }
+.btn-elemental:hover {
+	opacity: 0.85;
+}
 
-.cancelButton:hover {
-	background: #c9302c;
+.btn-cancel {
+	background: #ef4444;
+	color: white;
+}
+.btn-cancel:hover {
+	opacity: 0.85;
 }
 
 /* !---------- Rules Content ---------- */
