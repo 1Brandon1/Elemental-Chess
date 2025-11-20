@@ -27,7 +27,7 @@ class Game {
 		}
 
 		this.startPosition = gameType === 'elemental' ? this.elementalFen : this.classicFen
-		this.bot = gameMode === 'pvb' ? new Bot(this, 'black', 1) : null
+		this.bot = gameMode === 'pvb' ? new Bot(this, 'black', 3) : null
 		this.board.draw(this.startPosition)
 	}
 
@@ -94,7 +94,7 @@ class Game {
 			setTimeout(() => {
 				this.bot.makeBestMove()
 				this.toggleTurn()
-			}, 500) // Small delay to simulate thinking time
+			}, 300) // Small delay to simulate thinking time
 		}
 		// if (this.gameMode === 'pvp') this.board.flip()
 	}
