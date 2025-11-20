@@ -22,8 +22,8 @@ function hideModal(modal) {
 	modal.classList.remove('show')
 }
 
-function newGame(type) {
-	const modal = type === 'pvb' ? botGameModal : pvpGameModal
+function newGame(mode) {
+	const modal = mode === 'pvb' ? botGameModal : pvpGameModal
 	modal.classList.add('show')
 }
 

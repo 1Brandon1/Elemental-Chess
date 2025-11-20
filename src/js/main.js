@@ -1,13 +1,13 @@
 const game = new Game()
 
-game.start('pvp', 'elemental')
+game.start('pvb', 'elemental')
 
 //!-------------- Keybind actions --------------
 const actions = {
 	ArrowLeft: () => game.undoMove(), // Undo move
 	ArrowRight: () => game.redoMove(), // Redo move
 	f: () => game.board.flip(), // Flip board
-	n: () => newGame(game.gameType), // New game
+	n: () => newGame(game.gameMode), // New game
 	r: () => openRules(), // Show rules
 	t: () => toggleTheme() // Change theme
 }
