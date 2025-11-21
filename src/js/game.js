@@ -13,6 +13,7 @@ class Game {
 	// Initializes the game
 	start(gameMode = 'pvp', gameType = 'elemental') {
 		this.gameMode = gameMode
+		this.gameType = gameType
 		this.activePlayer = 'white'
 		this.activePlayerElement.innerHTML = 'White'
 		this.gameOver = false

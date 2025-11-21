@@ -72,7 +72,7 @@ function hideCheckmateModal() {
 
 playAgainButton.addEventListener('click', () => {
 	hideCheckmateModal()
-	game.start()
+	game.start(game.gameMode, game.gameType)
 })
 
 //!--------------  Rules Modal --------------
