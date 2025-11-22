@@ -58,7 +58,7 @@ class Game {
 	// Actions for first click (select piece)
 	handleFirstClick(square) {
 		this.selectedSquare = square
-		const piece = this.board.getPieceFromCoordinate(square.getAttribute('coordinate'))
+		const piece = this.board.getPieceFromCoord(square.getAttribute('coordinate'))
 		if (!this.isActivePlayersPiece(square)) return
 		this.availableMoves = this.calculateValidMoves(piece, parseInt(square.getAttribute('index120')))
 		this.board.highlightSquares(this.availableMoves)
@@ -70,7 +70,7 @@ class Game {
 		if (!this.availableMoves.includes(parseInt(square.getAttribute('index120')))) return
 		const fromCoord = this.selectedSquare.getAttribute('coordinate')
 
-		this.executeMove(fromCoord, square.getAttribute('coordinate'), this.board.getPieceFromCoordinate(fromCoord))
+		this.executeMove(fromCoord, square.getAttribute('coordinate'), this.board.getPieceFromCoord(fromCoord))
 		this.resetSquareSelection()
 
 		if (this.isKingCheckmated(this.getOpponentColour(this.activePlayer))) {
@@ -97,7 +97,7 @@ class Game {
 			setTimeout(() => {
 				this.bot.makeBestMove()
 				this.toggleTurn()
-			}, 700) // Delay to simulate thinking time
+			}, 500) // Delay to simulate thinking time
 		}
 	}
 
@@ -122,7 +122,7 @@ class Game {
 
 		if (this.isEnPassantMove(toCoord, piece)) {
 			const dir = piece === piece.toUpperCase() ? -1 : 1
-			const enPassantCoord = this.board.index120ToCoordinate(this.enPassantIndex - 10 * dir)
+			const enPassantCoord = Chessboard.index120ToCoord(this.enPassantIndex - 10 * dir)
 			capturedPiece = this.retrieveCapturedPiece(enPassantCoord)
 			capturedCoord = enPassantCoord
 			this.board.enPassant(fromCoord, toCoord)
@@ -196,7 +196,7 @@ class Game {
 				break
 			case 'castle':
 				this.board.castle(fromCoord, toCoord)
-				this.updateCastlingRights(fromCoord, this.board.getPieceFromCoordinate(toCoord))
+				this.updateCastlingRights(fromCoord, this.board.getPieceFromCoord(toCoord))
 				break
 			default:
 				this.board.move(fromCoord, toCoord)
@@ -209,7 +209,7 @@ class Game {
 
 	// Calculate all valid moves for a piece, considering king safety
 	calculateValidMoves(piece, currentPosition) {
-		const colour = this.board.getPieceColour(piece)
+		const colour = Chessboard.getPieceColour(piece)
 		let moves = []
 
 		// prettier-ignore
@@ -235,9 +235,9 @@ class Game {
 		const availableMoves = []
 		for (let offset of offsets) {
 			let newPosition = currentPosition + offset
-			while (this.board.isValidBoardIndex(newPosition) && !this.board.isSquareOccupiedByAlly(newPosition, colour)) {
+			while (Chessboard.isValidIndex(newPosition) && !this.isSquareOccupiedByAlly(newPosition, colour)) {
 				availableMoves.push(newPosition)
-				if (this.board.isSquareOccupiedByOpponent(newPosition, colour) || !sliding) break
+				if (this.isSquareOccupiedByOpponent(newPosition, colour) || !sliding) break
 				newPosition += offset
 			}
 		}
@@ -269,8 +269,8 @@ class Game {
 
 		for (let offset of [9 * dir, 11 * dir]) {
 			let newPosition = currentPosition + offset
-			if (this.board.isValidBoardIndex(newPosition)) {
-				if (this.board.isSquareOccupiedByOpponent(newPosition, colour) || newPosition === this.enPassantIndex) {
+			if (Chessboard.isValidIndex(newPosition)) {
+				if (this.isSquareOccupiedByOpponent(newPosition, colour) || newPosition === this.enPassantIndex) {
 					availableMoves.push(newPosition)
 				}
 			}
@@ -278,7 +278,7 @@ class Game {
 
 		for (let offset of offsets) {
 			let newPosition = currentPosition + offset
-			if (this.board.isValidBoardIndex(newPosition) && !this.board.isSquareOccupied(newPosition)) availableMoves.push(newPosition)
+			if (Chessboard.isValidIndex(newPosition) && !this.board.isSquareOccupied(newPosition)) availableMoves.push(newPosition)
 		}
 		return availableMoves
 	}
@@ -306,10 +306,10 @@ class Game {
 			for (let i = 0; i < 3; i++) {
 				// Limit to 3 squares
 				newPosition += offset
-				if (!this.board.isValidBoardIndex(newPosition)) break
-				if (this.board.isSquareOccupiedByAlly(newPosition, colour)) break
+				if (!Chessboard.isValidIndex(newPosition)) break
+				if (this.isSquareOccupiedByAlly(newPosition, colour)) break
 				validMoves.push(newPosition)
-				if (this.board.isSquareOccupiedByOpponent(newPosition, colour)) break
+				if (this.isSquareOccupiedByOpponent(newPosition, colour)) break
 			}
 		}
 		return validMoves
@@ -326,10 +326,10 @@ class Game {
 	calculateAllMoves(colour) {
 		const allMoves = []
 		for (let i = 21; i <= 98; i++) {
-			if (this.board.isSquareOccupiedByAlly(i, colour)) {
-				const fromcoord = this.board.index120ToCoordinate(i)
-				const piece = this.board.getPieceFromCoordinate(fromcoord)
-				allMoves.push(...this.calculateValidMoves(piece, i).map((move) => [fromcoord, this.board.index120ToCoordinate(move)]))
+			if (this.isSquareOccupiedByAlly(i, colour)) {
+				const fromcoord = Chessboard.index120ToCoord(i)
+				const piece = this.board.getPieceFromCoord(fromcoord)
+				allMoves.push(...this.calculateValidMoves(piece, i).map((move) => [fromcoord, Chessboard.index120ToCoord(move)]))
 			}
 		}
 		return allMoves
@@ -339,7 +339,7 @@ class Game {
 	doesMoveLeaveKingSafe(from, to) {
 		const tempBoard = [...this.board.boardArray120]
 		const pieceToMove = tempBoard[from]
-		const kingColour = this.board.getPieceColour(pieceToMove)
+		const kingColour = Chessboard.getPieceColour(pieceToMove)
 
 		tempBoard[to] = pieceToMove
 		tempBoard[from] = ''
@@ -356,7 +356,7 @@ class Game {
 
 	// Update castling rights based on the move
 	updateCastlingRights(fromCoord, piece) {
-		const colour = this.board.getPieceColour(piece)
+		const colour = Chessboard.getPieceColour(piece)
 
 		if (piece.toLowerCase() === 'k') {
 			this.castlingRights[colour].kingside = false
@@ -370,7 +370,7 @@ class Game {
 	// Check if kingside castling is possible
 	canKingCastleKingside(colour) {
 		const emptySquares = colour === 'white' ? [96, 97] : [26, 27]
-		const rookPiece = this.board.getPieceFromCoordinate(this.board.index120ToCoordinate(colour === 'white' ? 98 : 28))
+		const rookPiece = this.board.getPieceFromCoord(Chessboard.index120ToCoord(colour === 'white' ? 98 : 28))
 
 		return (
 			this.castlingRights[colour].kingside &&
@@ -378,14 +378,14 @@ class Game {
 			!this.areSquaresUnderAttack(emptySquares, colour) &&
 			rookPiece &&
 			rookPiece.toLowerCase() === 'r' &&
-			this.board.getPieceColour(rookPiece) === colour
+			Chessboard.getPieceColour(rookPiece) === colour
 		)
 	}
 
 	// Check if queenside castling is possible
 	canKingCastleQueenside(colour) {
 		const emptySquares = colour === 'white' ? [94, 93, 92] : [24, 23, 22]
-		const rookPiece = this.board.getPieceFromCoordinate(this.board.index120ToCoordinate(colour === 'white' ? 91 : 21))
+		const rookPiece = this.board.getPieceFromCoord(Chessboard.index120ToCoord(colour === 'white' ? 91 : 21))
 
 		return (
 			this.castlingRights[colour].queenside &&
@@ -393,7 +393,7 @@ class Game {
 			!this.areSquaresUnderAttack(emptySquares, colour) &&
 			rookPiece &&
 			rookPiece.toLowerCase() === 'r' &&
-			this.board.getPieceColour(rookPiece) === colour
+			Chessboard.getPieceColour(rookPiece) === colour
 		)
 	}
 
@@ -401,8 +401,8 @@ class Game {
 	updateEnPassantIndex(fromCoord, toCoord, piece) {
 		this.enPassantIndex = null
 		if (piece && piece.toLowerCase() === 'p') {
-			const fromSquareIndex = this.board.coordinateToIndex120(fromCoord)
-			const toSquareIndex = this.board.coordinateToIndex120(toCoord)
+			const fromSquareIndex = Chessboard.coordToIndex120(fromCoord)
+			const toSquareIndex = Chessboard.coordToIndex120(toCoord)
 			if (Math.abs(toSquareIndex - fromSquareIndex) === 20) {
 				this.enPassantIndex = (fromSquareIndex + toSquareIndex) / 2
 			}
@@ -420,8 +420,8 @@ class Game {
 	isKingCheckmated(colour) {
 		if (!this.isKingInCheck(colour)) return false
 		for (let i = 21; i <= 98; i++) {
-			if (this.board.isSquareOccupiedByAlly(i, colour)) {
-				const piece = this.board.getPieceFromCoordinate(this.board.index120ToCoordinate(i))
+			if (this.isSquareOccupiedByAlly(i, colour)) {
+				const piece = this.board.getPieceFromCoord(Chessboard.index120ToCoord(i))
 				if (this.calculateValidMoves(piece, i).length > 0) return false
 			}
 		}
@@ -435,7 +435,7 @@ class Game {
 
 	// Get captured piece at the destination square
 	retrieveCapturedPiece(toCoord) {
-		const pieceAtDestination = this.board.getPieceFromCoordinate(toCoord)
+		const pieceAtDestination = this.board.getPieceFromCoord(toCoord)
 		return pieceAtDestination ? pieceAtDestination : null
 	}
 
@@ -456,6 +456,15 @@ class Game {
 	}
 
 	//!-------------- Helpers --------------
+	isSquareOccupiedByAlly(idx, colour) {
+		const p = this.board.boardArray120[idx]
+		return p && Chessboard.getPieceColour(p) === colour
+	}
+
+	isSquareOccupiedByOpponent(idx, colour) {
+		const p = this.board.boardArray120[idx]
+		return p && Chessboard.getPieceColour(p) !== colour
+	}
 
 	// Check if the clicked square contains the current player's piece
 	isActivePlayersPiece(square) {
@@ -465,13 +474,13 @@ class Game {
 
 	// Checks if a move is en passant
 	isEnPassantMove(toCoord, piece) {
-		return this.board.coordinateToIndex120(toCoord) === this.enPassantIndex && piece.toLowerCase() === 'p'
+		return Chessboard.coordToIndex120(toCoord) === this.enPassantIndex && piece.toLowerCase() === 'p'
 	}
 
 	// Checks if a move is castling
 	isCastleMove(fromCoord, toCoord, piece) {
 		if (piece.toLowerCase() !== 'k') return false
-		const moveDistance = Math.abs(this.board.coordinateToIndex120(fromCoord) - this.board.coordinateToIndex120(toCoord))
+		const moveDistance = Math.abs(Chessboard.coordToIndex120(fromCoord) - Chessboard.coordToIndex120(toCoord))
 		return moveDistance === 2 || moveDistance === 3
 	}
 

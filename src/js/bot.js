@@ -147,7 +147,7 @@ class Bot {
 		}
 
 		// Execute the chosen move in the real game
-		this.game.executeMove(bestMove.from, bestMove.to, this.game.board.getPieceFromCoordinate(bestMove.from))
+		this.game.executeMove(bestMove.from, bestMove.to, this.game.board.getPieceFromCoord(bestMove.from))
 	}
 
 	//!-------------- Minimax with Alpha-Beta Pruning --------------
@@ -255,20 +255,6 @@ class GameCopy {
 
 	//!-------------- Helpers --------------
 
-	coordToIndex(coord) {
-		return this.originalGame.board.coordinateToIndex120(coord)
-	}
-
-	indexToCoord(index120) {
-		return this.originalGame.board.index120ToCoordinate(index120)
-	}
-
-	// Return piece colour ('white' or 'black')
-	getPieceColour(piece) {
-		if (!Bot.isValidPiece(piece)) return null
-		return piece === piece.toUpperCase() ? 'white' : 'black'
-	}
-
 	// Return opponent colour
 	getOpponentColour(colour) {
 		return colour === 'white' ? 'black' : 'white'
@@ -282,9 +268,9 @@ class GameCopy {
 		for (let i = 21; i <= 98; i++) {
 			const piece = this.boardArray120[i]
 			if (!Bot.isValidPiece(piece)) continue
-			if (this.getPieceColour(piece) !== colour) continue
+			if (Chessboard.getPieceColour(piece) !== colour) continue
 
-			const fromCoord = this.indexToCoord(i)
+			const fromCoord = Chessboard.index120ToCoord(i)
 			let legalMoves = []
 			try {
 				legalMoves = this.originalGame.calculateValidMoves(piece, i)
@@ -295,7 +281,7 @@ class GameCopy {
 			for (const dest120 of legalMoves) {
 				moves.push({
 					from: fromCoord,
-					to: this.indexToCoord(dest120),
+					to: Chessboard.index120ToCoord(dest120),
 					piece
 				})
 			}
@@ -307,8 +293,8 @@ class GameCopy {
 
 	// Make a move on the copied board
 	makeMove(move) {
-		const fromIndex = this.coordToIndex(move.from)
-		const toIndex = this.coordToIndex(move.to)
+		const fromIndex = Chessboard.coordToIndex120(move.from)
+		const toIndex = Chessboard.coordToIndex120(move.to)
 
 		// Backup current state for undo
 		this._backup = {

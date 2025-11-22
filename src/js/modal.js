@@ -4,14 +4,11 @@ const pvpGameModal = document.getElementById('pvpGameModal') // PvP game selecti
 const botGameModal = document.getElementById('botGameModal') // PvB (player vs bot) modal
 const checkmateModal = document.getElementById('checkmateModal') // End-of-game winner modal
 
-const confirmPvPButton = document.getElementById('confirmPvPButton') // PvP confirmation button (not used in current code)
-const cancelPvPButton = document.getElementById('cancelPvPButton') // PvP cancel button
-
-const confirmBotButton = document.getElementById('confirmBotButton') // PvB confirmation button (not used in current code)
-const cancelBotButton = document.getElementById('cancelBotButton') // PvB cancel button
+const cancelPvPButton = document.getElementById('cancelPvPButton')
+const cancelBotButton = document.getElementById('cancelBotButton')
 
 const winnerNameElement = document.getElementById('winnerName') // Span to display winner's name
-const playAgainButton = document.getElementById('playAgainButton') // Button to restart game after checkmate
+const playAgainButton = document.getElementById('playAgainButton')
 
 const rulesModal = document.getElementById('rulesModal') // Game rules modal
 const closeRulesButton = document.getElementById('closeRulesButton') // Button to close rules modal
