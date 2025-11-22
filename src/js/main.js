@@ -1,5 +1,4 @@
 const game = new Game()
-
 game.start('pvb', 'elemental')
 
 //!-------------- Keybind actions --------------

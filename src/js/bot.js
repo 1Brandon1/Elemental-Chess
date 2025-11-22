@@ -1,26 +1,20 @@
+// Bot AI class implementing a minimax chess engine with alpha-beta pruning
 class Bot {
 	constructor(game, colour, depth = 3) {
-		this.game = game
-		this.colour = colour
-		this.depth = depth
+		this.game = game // Reference to the main game object
+		this.colour = colour // Bot's colour ('white' or 'black')
+		this.depth = depth // Depth of minimax search
 
-		// Material count
+		// prettier-ignore
+		// Piece values for evaluation (material score)
 		this.pieceValues = {
-			p: 100,
-			n: 320,
-			b: 330,
-			r: 500,
-			q: 900,
-			k: 20000,
-
-			// Elemental values
-			f: 450, // Fire Mage
-			w: 450, // Water Mage
-			e: 550, // Earth Golem
-			a: 500 // Air Spirit
+			p: 100, n: 320, b: 330, r: 500, q: 900, k: 20000,
+			// Custom elemental pieces
+			f: 450, w: 450, e: 550, a: 500
 		}
 
-		// Piece-square tables (row 0 = a8, row 7 = a1)
+		// Piece-Square Tables (PST) for positional evaluation
+		// Indexed by piece type; row 0 = a8, row 7 = a1
 		this.PST = {
 			p: [
 				[0, 0, 0, 0, 0, 0, 0, 0],
@@ -73,16 +67,16 @@ class Bot {
 				[-20, -10, -10, -5, -5, -10, -10, -20]
 			],
 			k: [
-				[-50, -40, -30, -20, -20, -30, -40, -50],
-				[-30, -20, -10, 0, 0, -10, -20, -30],
-				[-30, -10, 20, 30, 30, 20, -10, -30],
-				[-30, -10, 30, 40, 40, 30, -10, -30],
-				[-30, -10, 30, 40, 40, 30, -10, -30],
-				[-30, -10, 20, 30, 30, 20, -10, -30],
-				[-30, -30, 0, 0, 0, 0, -30, -30],
-				[-50, -30, -30, -30, -30, -30, -30, -50]
+				[-40, -40, -35, -35, -35, -35, -40, -40],
+				[-30, -30, -25, -25, -25, -25, -30, -30],
+				[-30, -25, -10, -10, -10, -10, -25, -30],
+				[-30, -25, -5, -5, -5, -5, -25, -30],
+				[-25, -20, 0, 0, 0, 0, -20, -25],
+				[-20, -15, 0, 5, 5, 0, -15, -20],
+				[-5, -5, 0, 0, 0, 0, -5, -5],
+				[-15, 0, -10, -15, -15, -10, 0, -15]
 			],
-			// Elemental PSTs
+			// Custom elemental pieces
 			f: [
 				[-40, -30, -20, -10, -10, -20, -30, -40],
 				[-30, -10, 5, 10, 10, 5, -10, -30],
@@ -128,17 +122,19 @@ class Bot {
 
 	//!-------------- Public API --------------
 
+	// Choose and execute the best move for the bot
 	makeBestMove() {
 		if (this.game.activePlayer !== this.colour || this.game.gameOver) return
 
+		// Create a safe copy of the game to simulate moves
 		const gameCopy = new GameCopy(this.game)
 		const moves = gameCopy.generateMoves(this.colour)
-
 		if (!moves.length) return
 
 		let bestMove = moves[0]
 		let bestEval = -Infinity
 
+		// Evaluate each move using minimax
 		for (const move of moves) {
 			gameCopy.makeMove(move)
 			const evalScore = this.minimax(gameCopy, this.depth - 1, -Infinity, Infinity, false)
@@ -150,26 +146,24 @@ class Bot {
 			}
 		}
 
-		// Execute best move in real game
+		// Execute the chosen move in the real game
 		this.game.executeMove(bestMove.from, bestMove.to, this.game.board.getPieceFromCoordinate(bestMove.from))
 	}
 
 	//!-------------- Minimax with Alpha-Beta Pruning --------------
 
+	// Recursive minimax function with alpha-beta pruning
 	minimax(gameState, depth, alpha, beta, maximizing) {
 		if (depth === 0 || gameState.isGameOver()) {
-			return this.evaluate(gameState)
+			return this.evaluate(gameState) // Evaluate leaf nodes
 		}
 
-		console.log(depth)
 		const colour = maximizing ? this.colour : gameState.getOpponentColour(this.colour)
 		const moves = gameState.generateMoves(colour)
-
 		if (!moves.length) return this.evaluate(gameState)
 
 		if (maximizing) {
 			let maxEval = -Infinity
-
 			for (const move of moves) {
 				gameState.makeMove(move)
 				const evalScore = this.minimax(gameState, depth - 1, alpha, beta, false)
@@ -177,13 +171,11 @@ class Bot {
 
 				maxEval = Math.max(maxEval, evalScore)
 				alpha = Math.max(alpha, evalScore)
-				if (beta <= alpha) break
+				if (beta <= alpha) break // prune branch
 			}
-
 			return maxEval
 		} else {
 			let minEval = Infinity
-
 			for (const move of moves) {
 				gameState.makeMove(move)
 				const evalScore = this.minimax(gameState, depth - 1, alpha, beta, true)
@@ -191,15 +183,15 @@ class Bot {
 
 				minEval = Math.min(minEval, evalScore)
 				beta = Math.min(beta, evalScore)
-				if (beta <= alpha) break
+				if (beta <= alpha) break // prune branch
 			}
-
 			return minEval
 		}
 	}
 
 	//!-------------- Evaluation Function (Material + PST) --------------
 
+	// Evaluate a board state based on material and positional values
 	evaluate(gameState) {
 		const board = gameState.boardArray120
 		let score = 0
@@ -220,7 +212,7 @@ class Bot {
 		return score
 	}
 
-	// Get PST bonus for a piece at index120
+	// Get positional bonus from PST for a piece at index120
 	getPSTValue(pieceChar, index120) {
 		if (!pieceChar) return 0
 		const typ = pieceChar.toLowerCase()
@@ -230,30 +222,31 @@ class Bot {
 		const idx64 = Chessboard.MAILBOX120[index120]
 		if (idx64 === undefined || idx64 < 0 || idx64 > 63) return 0
 
-		const rank = Math.floor(idx64 / 8) // 0..7 where 0 = a8
+		const rank = Math.floor(idx64 / 8)
 		const file = idx64 % 8
 
-		// white uppercase: table[rank][file]; black lowercase: flip vertically
+		// Uppercase = white, lowercase = black (flip vertically)
 		if (pieceChar === pieceChar.toUpperCase()) return table[rank][file] || 0
 		return table[7 - rank][file] || 0
 	}
 
+	// Check if piece belongs to the bot
 	isBotsPiece(piece) {
 		if (!Bot.isValidPiece(piece)) return false
 		return this.colour === 'white' ? piece === piece.toUpperCase() : piece === piece.toLowerCase()
 	}
 
-	// STATIC SAFETY UTIL
+	// STATIC SAFETY UTIL: validate piece character
 	static isValidPiece(piece) {
 		return typeof piece === 'string' && piece.length === 1 && /[prnbqkafwe]/i.test(piece)
 	}
 }
 
+// Safe minimal copy of game state for simulation
 class GameCopy {
 	constructor(game) {
 		this.originalGame = game
-
-		// Copy game state in a minimal safe form
+		// Clone essential game state
 		this.boardArray120 = [...game.board.boardArray120]
 		this.activePlayer = game.activePlayer
 		this.enPassantIndex = game.enPassantIndex
@@ -270,29 +263,28 @@ class GameCopy {
 		return this.originalGame.board.index120ToCoordinate(index120)
 	}
 
+	// Return piece colour ('white' or 'black')
 	getPieceColour(piece) {
 		if (!Bot.isValidPiece(piece)) return null
 		return piece === piece.toUpperCase() ? 'white' : 'black'
 	}
 
+	// Return opponent colour
 	getOpponentColour(colour) {
 		return colour === 'white' ? 'black' : 'white'
 	}
 
 	//!-------------- Move Generation --------------
 
+	// Generate all legal moves for a given colour
 	generateMoves(colour) {
 		const moves = []
-
 		for (let i = 21; i <= 98; i++) {
 			const piece = this.boardArray120[i]
-
-			// skip invalid/empty
 			if (!Bot.isValidPiece(piece)) continue
 			if (this.getPieceColour(piece) !== colour) continue
 
 			const fromCoord = this.indexToCoord(i)
-
 			let legalMoves = []
 			try {
 				legalMoves = this.originalGame.calculateValidMoves(piece, i)
@@ -308,17 +300,17 @@ class GameCopy {
 				})
 			}
 		}
-
 		return moves
 	}
 
 	//!-------------- Move Execution --------------
 
+	// Make a move on the copied board
 	makeMove(move) {
 		const fromIndex = this.coordToIndex(move.from)
 		const toIndex = this.coordToIndex(move.to)
 
-		// Backup state
+		// Backup current state for undo
 		this._backup = {
 			board: [...this.boardArray120],
 			activePlayer: this.activePlayer,
@@ -326,14 +318,15 @@ class GameCopy {
 			castlingRights: structuredClone(this.castlingRights)
 		}
 
-		// Basic move (no UI, no special moves here)
+		// Execute move (no special moves considered)
 		this.boardArray120[toIndex] = this.boardArray120[fromIndex]
 		this.boardArray120[fromIndex] = ''
 
-		// Swap turn
+		// Swap active player
 		this.activePlayer = this.activePlayer === 'white' ? 'black' : 'white'
 	}
 
+	// Undo last move
 	undoMove() {
 		if (!this._backup) return
 		this.boardArray120 = this._backup.board
@@ -344,8 +337,9 @@ class GameCopy {
 
 	//!-------------- Game Over Check --------------
 
+	// Check if current player has any legal moves
 	isGameOver() {
 		const moves = this.generateMoves(this.activePlayer)
-		return moves.length === 0 // checkmate or stalemate
+		return moves.length === 0 // true if checkmate or stalemate
 	}
 }

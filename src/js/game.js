@@ -1,42 +1,44 @@
+// Game class manages the overall chess game logic, including state, moves, and rules
 class Game {
 	constructor() {
-		this.board = new Chessboard(this)
-		this.classicFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR' // Default positioning
-		this.elementalFen = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW'
+		this.board = new Chessboard(this) // Chessboard instance linked to this game
+		this.classicFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR' // Standard chess starting position
+		this.elementalFen = 'rfbekanw/pppppppp/8/8/8/8/PPPPPPPP/RFBEKANW' // Elemental variant starting position
 
-		this.handleSquareClick = this.handleSquareClick.bind(this)
-		this.activePlayerElement = document.getElementById('activePlayer')
+		this.handleSquareClick = this.handleSquareClick.bind(this) // Bind click handler to game instance
+		this.activePlayerElement = document.getElementById('activePlayer') // DOM element showing active player
 
-		this.selectedSquare = null
+		this.selectedSquare = null // Tracks currently selected square
 	}
 
-	// Initializes the game
+	// Initialises the game
 	start(gameMode = 'pvp', gameType = 'elemental') {
-		this.gameMode = gameMode
-		this.gameType = gameType
+		this.gameMode = gameMode // pvp or pvb
+		this.gameType = gameType // elemental or classic
 		this.activePlayer = 'white'
 		this.activePlayerElement.innerHTML = 'White'
 		this.gameOver = false
-		this.availableMoves = []
-		this.moveHistory = []
-		this.undoneMoves = []
+		this.availableMoves = [] // Valid moves for selected piece
+		this.moveHistory = [] // List of executed moves
+		this.undoneMoves = [] // List of undone moves (for redo)
 
-		this.enPassantIndex = null
+		this.enPassantIndex = null // Index for en passant captures
 		this.castlingRights = {
+			// Track castling availability
 			white: { kingside: true, queenside: true },
 			black: { kingside: true, queenside: true }
 		}
 
 		this.startPosition = gameType === 'elemental' ? this.elementalFen : this.classicFen
-		this.bot = gameMode === 'pvb' ? new Bot(this, 'black', 3) : null
-		this.board.draw(this.startPosition)
+		this.bot = gameMode === 'pvb' ? new Bot(this, 'black', 1) : null // Initialize bot if PvB
+		this.board.draw(this.startPosition) // Draw board
 	}
 
 	//!-------------- Game Flow --------------
 
 	// Handle square click events
 	handleSquareClick(event) {
-		if (this.board.promotionInProgress) return
+		if (this.board.promotionInProgress) return // Ignore clicks during promotion
 
 		const square = event.currentTarget
 		if (!this.selectedSquare) {
@@ -53,7 +55,7 @@ class Game {
 		}
 	}
 
-	// Actions on first click
+	// Actions for first click (select piece)
 	handleFirstClick(square) {
 		this.selectedSquare = square
 		const piece = this.board.getPieceFromCoordinate(square.getAttribute('coordinate'))
@@ -63,7 +65,7 @@ class Game {
 		square.classList.add('clickedSquare')
 	}
 
-	// Actions on second click
+	// Actions for second click (attempt move)
 	handleSecondClick(square) {
 		if (!this.availableMoves.includes(parseInt(square.getAttribute('index120')))) return
 		const fromCoord = this.selectedSquare.getAttribute('coordinate')
@@ -95,9 +97,8 @@ class Game {
 			setTimeout(() => {
 				this.bot.makeBestMove()
 				this.toggleTurn()
-			}, 300) // Small delay to simulate thinking time
+			}, 700) // Delay to simulate thinking time
 		}
-		// if (this.gameMode === 'pvp') this.board.flip()
 	}
 
 	// Reset square selection and valid moves
@@ -111,7 +112,7 @@ class Game {
 
 	//!-------------- Move Management --------------
 
-	// Make a move
+	// Execute a move, handling special moves and history
 	executeMove(fromCoord, toCoord, piece) {
 		let capturedPiece = null
 		let capturedCoord = null
@@ -143,7 +144,7 @@ class Game {
 		this.updateCastlingRights(fromCoord, piece)
 	}
 
-	// Undoes the last move
+	// Undo the last move
 	undoMove() {
 		this.resetSquareSelection()
 		this.board.hidePromotionOptions()
@@ -179,7 +180,7 @@ class Game {
 		this.undoneMoves.push(lastMove)
 	}
 
-	// Redoes the last undone move
+	// Redo last undone move
 	redoMove() {
 		if (this.undoneMoves.length === 0) return
 		const lastUndoneMove = this.undoneMoves.pop()
@@ -206,7 +207,7 @@ class Game {
 
 	//!-------------- Move Validity and Calculation --------------
 
-	// Get valid moves for a piece at a given position
+	// Calculate all valid moves for a piece, considering king safety
 	calculateValidMoves(piece, currentPosition) {
 		const colour = this.board.getPieceColour(piece)
 		let moves = []
@@ -243,7 +244,7 @@ class Game {
 		return availableMoves
 	}
 
-	// Get valid moves for a king
+	// Get valid moves for a king including castling
 	calculateKingMoves(currentPosition, colour) {
 		const moves = this.calculateMoves(currentPosition, colour, [-11, -10, -9, -1, 1, 9, 10, 11], false)
 		if (this.canKingCastleKingside(colour)) moves.push(currentPosition + 2)
