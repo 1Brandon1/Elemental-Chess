@@ -16,7 +16,7 @@
 
 <body>
 	<nav class="navbar">
-		<!--! List of navagation bar items -->
+		<!--! List of navigation bar items -->
 		<ul class="navbar-nav">
 			<!-- Name and logo -->
 			<li class="logo">
@@ -32,7 +32,7 @@
 
 			<!--! PvP button -->
 			<li class="nav-item">
-				<a class="nav-button" onclick="newGame('pvp')">
+				<a class="nav-button" onclick="openNewGameModal('pvp')">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
 						<path fill="currentColor"
 							d="M256 0c4.6 0 9.2 1 13.4 2.9L457.7 82.8c22 9.3 38.4 31 38.3 57.2c-.5 99.2-41.3 280.7-213.6 363.2c-16.7 8-36.1 8-52.8 0C57.3 420.7 16.5 239.2 16 140c-.1-26.2 16.3-47.9 38.3-57.2L242.7 2.9C246.8 1 251.4 0 256 0zm0 66.8V444.8C394 378 431.1 230.1 432 141.4L256 66.8l0 0z">
@@ -44,7 +44,7 @@
 
 			<!--! Bot button -->
 			<li class="nav-item">
-				<a class="nav-button" onclick="newGame('pvb')">
+				<a class="nav-button" onclick="openNewGameModal('pvb')">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
 						<path fill="currentColor"
 							d="M320 0c17.7 0 32 14.3 32 32l0 64 120 0c39.8 0 72 32.2 72 72l0 272c0 39.8-32.2 72-72 72l-304 0c-39.8 0-72-32.2-72-72l0-272c0-39.8 32.2-72 72-72l120 0 0-64c0-17.7 14.3-32 32-32zM208 384c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zm96 0c-8.8 0-16 7.2-16 16s7.2 16 16 16l32 0c8.8 0 16-7.2 16-16s-7.2-16-16-16l-32 0zM264 256a40 40 0 1 0 -80 0 40 40 0 1 0 80 0zm152 40a40 40 0 1 0 0-80 40 40 0 1 0 0 80zM48 224l16 0 0 192-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48zm544 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0 0-192 16 0z">
@@ -177,7 +177,7 @@
 					</svg>
 				</button>
 
-				<button class="board-button" onclick="newGame(game.gameMode)">
+				<button class="board-button" onclick="openNewGameModal(game.gameMode)">
 					<svg xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 448 512">
 						<path fill="currentColor"
 							d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z">
@@ -285,7 +285,7 @@
 
 	</main>
 
-	<script src="src/js/navbar.js"></script>
+	<script src="src/js/themes.js"></script>
 
 	<script src="src/js/board.js"></script>
 	<script src="src/js/bot.js"></script>

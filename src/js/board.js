@@ -261,9 +261,9 @@ class Chessboard {
 	// ============================================================================
 	// HTML Helpers
 	// ============================================================================
-	getSquareElement(index120) {
-		const el = this.boardElement.querySelector(`.square[index120="${index120}"]`)
-		if (!el) throw new Error(`Square ${index120} missing`)
+	getSquareElement(idx120) {
+		const el = this.boardElement.querySelector(`.square[index120="${idx120}"]`)
+		if (!el) throw new Error(`Square ${idx120} missing`)
 		return el
 	}
 
@@ -271,19 +271,19 @@ class Chessboard {
 		return this.boardArray120[Chessboard.coordToIndex120(coord)]
 	}
 
-	renderSquare(piece, index120, idx64) {
+	renderSquare(piece, idx120, idx64) {
 		const square = document.createElement('div')
 
 		const isDark = ((idx64 % 8) + Math.floor(idx64 / 8)) % 2 === 1
 
 		square.className = `square ${isDark ? 'darkSquare' : 'lightSquare'}`
-		square.setAttribute('index120', index120)
-		square.setAttribute('coordinate', Chessboard.index120ToCoord(index120))
+		square.setAttribute('index120', idx120)
+		square.setAttribute('coordinate', Chessboard.index120ToCoord(idx120))
 		square.innerHTML = piece ? this.renderPiece(piece) : ''
 
 		square.addEventListener('click', (e) => this.game.handleSquareClick(e))
 
-		this.boardArray120[index120] = piece || ''
+		this.boardArray120[idx120] = piece || ''
 		return square
 	}
 

@@ -1,90 +1,88 @@
-//!-------------- Modal Elements --------------
-// DOM references for modals and buttons
-const pvpGameModal = document.getElementById('pvpGameModal') // PvP game selection modal
-const botGameModal = document.getElementById('botGameModal') // PvB (player vs bot) modal
-const checkmateModal = document.getElementById('checkmateModal') // End-of-game winner modal
+// ============================================================
+// Modals: Utility Helpers
+// ============================================================
+const $ = (sel) => document.getElementById(sel)
 
-const cancelPvPButton = document.getElementById('cancelPvPButton')
-const cancelBotButton = document.getElementById('cancelBotButton')
+const modals = {
+	pvp: $('pvpGameModal'),
+	pvb: $('botGameModal'),
+	checkmate: $('checkmateModal'),
+	rules: $('rulesModal')
+}
 
-const winnerNameElement = document.getElementById('winnerName') // Span to display winner's name
-const playAgainButton = document.getElementById('playAgainButton')
+const buttons = {
+	cancelPvP: $('cancelPvPButton'),
+	cancelBot: $('cancelBotButton'),
+	playAgain: $('playAgainButton'),
+	closeRules: $('closeRulesButton')
+}
 
-const rulesModal = document.getElementById('rulesModal') // Game rules modal
-const closeRulesButton = document.getElementById('closeRulesButton') // Button to close rules modal
+const winnerName = $('winnerName')
 
-//!--------------  Utility --------------
+function showModal(modal) {
+	modal.classList.add('show')
+}
 
-// Hide any modal by removing the 'show' CSS class
 function hideModal(modal) {
 	modal.classList.remove('show')
 }
 
-// Show the appropriate modal for starting a new game
-function newGame(mode) {
-	const modal = mode === 'pvb' ? botGameModal : pvpGameModal
-	modal.classList.add('show')
+function openNewGameModal(mode) {
+	showModal(mode === 'pvb' ? modals.pvb : modals.pvp)
 }
 
-//!--------------  PvP Modal --------------
-// PvP mode selection buttons
-document.getElementById('pvpClassicButton').addEventListener('click', () => {
-	hideModal(pvpGameModal) // hide selection modal
-	game.start('pvp', 'classic') // start classic PvP game
+// ============================================================
+// PvP Game Selection
+// ============================================================
+$('pvpClassicButton').addEventListener('click', () => {
+	hideModal(modals.pvp)
+	game.start('pvp', 'classic')
 })
 
-document.getElementById('pvpElementalButton').addEventListener('click', () => {
-	hideModal(pvpGameModal)
-	game.start('pvp', 'elemental') // start elemental PvP game
+$('pvpElementalButton').addEventListener('click', () => {
+	hideModal(modals.pvp)
+	game.start('pvp', 'elemental')
 })
 
-// Cancel PvP selection
-cancelPvPButton.addEventListener('click', () => {
-	hideModal(pvpGameModal)
+buttons.cancelPvP.addEventListener('click', () => hideModal(modals.pvp))
+
+// ============================================================
+// PvB Game Selection
+// ============================================================
+$('botClassicButton').addEventListener('click', () => {
+	hideModal(modals.pvb)
+	game.start('pvb', 'classic')
 })
 
-//!--------------  Bot Modal --------------
-// PvB mode selection buttons
-document.getElementById('botClassicButton').addEventListener('click', () => {
-	hideModal(botGameModal)
-	game.start('pvb', 'classic') // start classic PvB game
+$('botElementalButton').addEventListener('click', () => {
+	hideModal(modals.pvb)
+	game.start('pvb', 'elemental')
 })
 
-document.getElementById('botElementalButton').addEventListener('click', () => {
-	hideModal(botGameModal)
-	game.start('pvb', 'elemental') // start elemental PvB game
-})
+buttons.cancelBot.addEventListener('click', () => hideModal(modals.pvb))
 
-// Cancel PvB selection
-cancelBotButton.addEventListener('click', () => {
-	hideModal(botGameModal)
-})
-
-//!--------------  Checkmate Modal --------------
-// Show winner modal with winner's name
+// ============================================================
+// Checkmate Modal
+// ============================================================
 function showCheckmateModal(winner) {
-	winnerNameElement.textContent = winner
-	checkmateModal.classList.add('show')
+	winnerName.textContent = winner
+	showModal(modals.checkmate)
 }
 
-// Hide winner modal
 function hideCheckmateModal() {
-	hideModal(checkmateModal)
+	hideModal(modals.checkmate)
 }
 
-// Restart game when 'Play Again' button is clicked
-playAgainButton.addEventListener('click', () => {
+buttons.playAgain.addEventListener('click', () => {
 	hideCheckmateModal()
 	game.start(game.gameMode, game.gameType)
 })
 
-//!--------------  Rules Modal --------------
-// Open the rules modal
+// ============================================================
+// Rules Modal
+// ============================================================
 function openRules() {
-	rulesModal.classList.add('show')
+	showModal(modals.rules)
 }
 
-// Close rules modal
-closeRulesButton.addEventListener('click', () => {
-	hideModal(rulesModal)
-})
+buttons.closeRules.addEventListener('click', () => hideModal(modals.rules))

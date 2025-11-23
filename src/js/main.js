@@ -1,17 +1,22 @@
+// ============================================================
+// Game Initialisation
+// ============================================================
 const game = new Game()
 game.start('pvb', 'elemental')
 
-//!-------------- Keybind actions --------------
-const actions = {
-	ArrowLeft: () => game.undoMove(), // Undo move
-	ArrowRight: () => game.redoMove(), // Redo move
-	f: () => game.board.flip(), // Flip board
-	n: () => newGame(game.gameMode), // New game
-	r: () => openRules(), // Show rules
-	t: () => toggleTheme() // Change theme
+// ============================================================
+// Keybind Controls
+// ============================================================
+const KEY_ACTIONS = {
+	ArrowLeft: () => game.undoMove(),
+	ArrowRight: () => game.redoMove(),
+	f: () => game.board.flip(),
+	n: () => openNewGameModal(game.gameMode),
+	r: openRules,
+	t: toggleTheme
 }
 
 // Key listener
 document.addEventListener('keydown', ({ key }) => {
-	if (actions[key]) actions[key]()
+	if (KEY_ACTIONS[key]) KEY_ACTIONS[key]()
 })
