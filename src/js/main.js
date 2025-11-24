@@ -11,7 +11,7 @@ const KEY_ACTIONS = {
 	ArrowLeft: () => game.undoMove(),
 	ArrowRight: () => game.redoMove(),
 	f: () => game.board.flip(),
-	n: () => openNewGameModal(game.gameMode),
+	n: () => openNewGameModal(game.mode),
 	r: openRules,
 	t: toggleTheme
 }

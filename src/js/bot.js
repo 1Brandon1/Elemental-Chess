@@ -147,7 +147,7 @@ class Bot {
 		}
 
 		// Execute the chosen move in the real game
-		this.game.executeMove(bestMove.from, bestMove.to, this.game.board.getPieceFromCoord(bestMove.from))
+		this.game.makeMove(bestMove.from, bestMove.to, this.game.board.getPieceFromCoord(bestMove.from))
 	}
 
 	//!-------------- Minimax with Alpha-Beta Pruning --------------
@@ -273,7 +273,7 @@ class GameCopy {
 			const fromCoord = Chessboard.index120ToCoord(i)
 			let legalMoves = []
 			try {
-				legalMoves = this.originalGame.calculateValidMoves(piece, i)
+				legalMoves = this.originalGame.generateLegalMoves(piece, i)
 			} catch {
 				continue
 			}

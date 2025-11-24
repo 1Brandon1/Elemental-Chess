@@ -118,7 +118,7 @@ class Chessboard {
 		this.boardArray120[toIdx] = this.boardArray120[fromIdx]
 		this.boardArray120[fromIdx] = ''
 
-		this.game.updateEnPassantIndex(from, to, this.boardArray120[toIdx])
+		this.game.updateEnPassant(from, to, this.boardArray120[toIdx])
 	}
 
 	castle(kingFrom, kingTo) {

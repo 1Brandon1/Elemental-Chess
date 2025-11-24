@@ -1,5 +1,5 @@
 // ============================================================
-// THEME MANAGEMENT
+// Theme Management
 // Handles cycling between available page themes
 // ============================================================
 const THEME_CYCLE = {
@@ -30,7 +30,7 @@ function toggleTheme() {
 	localStorage.setItem('theme', next)
 }
 
-// Initialize theme
+// Initialise theme
 applyTheme(getStoredTheme())
 
 document.getElementById('themeButton').addEventListener('click', toggleTheme)

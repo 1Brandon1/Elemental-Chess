@@ -109,3 +109,9 @@
 	padding: 0;
 	margin: 0;
 }
+
+/* !---------- Checkmate Content ---------- */
+
+#winnerName {
+	text-transform: capitalize;
+}
