@@ -1,20 +1,26 @@
-// Bot AI class implementing a minimax chess engine with alpha-beta pruning
+// ============================================================================
+// Bot Class
+// Minimax engine with Alpha-Beta pruning + Piece-Square Tables (PST)
+// ============================================================================
 class Bot {
 	constructor(game, colour, depth = 3) {
-		this.game = game // Reference to the main game object
-		this.colour = colour // Bot's colour ('white' or 'black')
-		this.depth = depth // Depth of minimax search
+		this.game = game
+		this.colour = colour // 'white' or 'black'
+		this.depth = depth // Search depth
 
+		// =========================================================================
+		// Piece Values (Material scoring)
+		// =========================================================================
 		// prettier-ignore
-		// Piece values for evaluation (material score)
 		this.pieceValues = {
-			p: 100, n: 320, b: 330, r: 500, q: 900, k: 20000,
-			// Custom elemental pieces
-			f: 450, w: 450, e: 550, a: 500
-		}
+            p: 100, n: 320, b: 330, r: 500, q: 900, k: 20000,
+            f: 450, w: 450, e: 550, a: 500  // elemental pieces
+        }
 
-		// Piece-Square Tables (PST) for positional evaluation
-		// Indexed by piece type; row 0 = a8, row 7 = a1
+		// =========================================================================
+		// Piece-Square Tables (PST)
+		// =========================================================================
+		// White uses PST normally, black uses it mirrored vertically.
 		this.PST = {
 			p: [
 				[0, 0, 0, 0, 0, 0, 0, 0],
@@ -76,7 +82,7 @@ class Bot {
 				[-5, -5, 0, 0, 0, 0, -5, -5],
 				[-15, 0, -10, -15, -15, -10, 0, -15]
 			],
-			// Custom elemental pieces
+			// --- Elemental PSTs ---
 			f: [
 				[-40, -30, -20, -10, -10, -20, -30, -40],
 				[-30, -10, 5, 10, 10, 5, -10, -30],
@@ -120,13 +126,12 @@ class Bot {
 		}
 	}
 
-	//!-------------- Public API --------------
-
-	// Choose and execute the best move for the bot
+	// =========================================================================
+	// Public Api — Make Best Move
+	// =========================================================================
 	makeBestMove() {
 		if (this.game.activePlayer !== this.colour || this.game.gameOver) return
 
-		// Create a safe copy of the game to simulate moves
 		const gameCopy = new GameCopy(this.game)
 		const moves = gameCopy.generateMoves(this.colour)
 		if (!moves.length) return
@@ -134,7 +139,6 @@ class Bot {
 		let bestMove = moves[0]
 		let bestEval = -Infinity
 
-		// Evaluate each move using minimax
 		for (const move of moves) {
 			gameCopy.makeMove(move)
 			const evalScore = this.minimax(gameCopy, this.depth - 1, -Infinity, Infinity, false)
@@ -146,13 +150,12 @@ class Bot {
 			}
 		}
 
-		// Execute the chosen move in the real game
 		this.game.makeMove(bestMove.from, bestMove.to, this.game.board.getPieceFromCoord(bestMove.from))
 	}
 
-	//!-------------- Minimax with Alpha-Beta Pruning --------------
-
-	// Recursive minimax function with alpha-beta pruning
+	// =========================================================================
+	// Minimax With Alpha-beta Pruning
+	// =========================================================================
 	minimax(gameState, depth, alpha, beta, maximizing) {
 		if (depth === 0 || gameState.isGameOver()) {
 			return this.evaluate(gameState) // Evaluate leaf nodes
@@ -189,9 +192,9 @@ class Bot {
 		}
 	}
 
-	//!-------------- Evaluation Function (Material + PST) --------------
-
-	// Evaluate a board state based on material and positional values
+	// =========================================================================
+	// Evaluation (Material + PST)
+	// =========================================================================
 	evaluate(gameState) {
 		const board = gameState.boardArray120
 		let score = 0
@@ -200,77 +203,77 @@ class Bot {
 			const piece = board[i]
 			if (!Bot.isValidPiece(piece)) continue
 
-			const pieceType = piece.toLowerCase()
-			const value = this.pieceValues[pieceType] || 0
+			const type = piece.toLowerCase()
+			const mat = this.pieceValues[type]
 			const pst = this.getPSTValue(piece, i)
-			const isBotPiece = this.isBotsPiece(piece)
+			const total = mat + pst
 
-			const total = value + pst
-			score += isBotPiece ? total : -total
+			score += this.isBotsPiece(piece) ? total : -total
 		}
 
 		return score
 	}
 
-	// Get positional bonus from PST for a piece at index120
-	getPSTValue(pieceChar, index120) {
-		if (!pieceChar) return 0
-		const typ = pieceChar.toLowerCase()
-		const table = this.PST[typ]
+	getPSTValue(piece, index120) {
+		const type = piece.toLowerCase()
+		const table = this.PST[type]
 		if (!table) return 0
 
 		const idx64 = Chessboard.MAILBOX120[index120]
-		if (idx64 === undefined || idx64 < 0 || idx64 > 63) return 0
+		if (idx64 < 0 || idx64 > 63) return 0
 
-		const rank = Math.floor(idx64 / 8)
-		const file = idx64 % 8
+		const r = Math.floor(idx64 / 8)
+		const f = idx64 % 8
 
-		// Uppercase = white, lowercase = black (flip vertically)
-		if (pieceChar === pieceChar.toUpperCase()) return table[rank][file] || 0
-		return table[7 - rank][file] || 0
+		// White uses table normally, black uses vertically mirrored version
+		return piece === piece.toUpperCase() ? table[r][f] : table[7 - r][f]
 	}
 
-	// Check if piece belongs to the bot
 	isBotsPiece(piece) {
-		if (!Bot.isValidPiece(piece)) return false
 		return this.colour === 'white' ? piece === piece.toUpperCase() : piece === piece.toLowerCase()
 	}
 
-	// STATIC SAFETY UTIL: validate piece character
-	static isValidPiece(piece) {
-		return typeof piece === 'string' && piece.length === 1 && /[prnbqkafwe]/i.test(piece)
+	static isValidPiece(p) {
+		return typeof p === 'string' && /^[prnbqkafwe]$/i.test(p)
 	}
 }
 
-// Safe minimal copy of game state for simulation
+// ============================================================================
+// Game Copy Class
+// Lightweight board for minimax simulations
+// ============================================================================
+
 class GameCopy {
 	constructor(game) {
 		this.originalGame = game
-		// Clone essential game state
+
+		// =========================================================================
+		// Shallow State Copy
+		// =========================================================================
 		this.boardArray120 = [...game.board.boardArray120]
 		this.activePlayer = game.activePlayer
 		this.enPassantIndex = game.enPassantIndex
 		this.castlingRights = structuredClone(game.castlingRights)
 	}
 
-	//!-------------- Helpers --------------
-
-	// Return opponent colour
-	getOpponentColour(colour) {
-		return colour === 'white' ? 'black' : 'white'
+	// =========================================================================
+	// Helpers
+	// =========================================================================
+	getOpponentColour(c) {
+		return c === 'white' ? 'black' : 'white'
 	}
 
-	//!-------------- Move Generation --------------
-
-	// Generate all legal moves for a given colour
+	// =========================================================================
+	// Move Generation
+	// =========================================================================
 	generateMoves(colour) {
 		const moves = []
+
 		for (let i = 21; i <= 98; i++) {
 			const piece = this.boardArray120[i]
 			if (!Bot.isValidPiece(piece)) continue
 			if (Chessboard.getPieceColour(piece) !== colour) continue
 
-			const fromCoord = Chessboard.index120ToCoord(i)
 			let legalMoves = []
 			try {
 				legalMoves = this.originalGame.generateLegalMoves(piece, i)
@@ -278,25 +281,26 @@ class GameCopy {
 				continue
 			}
 
-			for (const dest120 of legalMoves) {
+			const fromCoord = Chessboard.index120ToCoord(i)
+			for (const dest of legalMoves) {
 				moves.push({
 					from: fromCoord,
-					to: Chessboard.index120ToCoord(dest120),
+					to: Chessboard.index120ToCoord(dest),
 					piece
 				})
 			}
 		}
+
 		return moves
 	}
 
-	//!-------------- Move Execution --------------
-
-	// Make a move on the copied board
+	// =========================================================================
+	// Move Execution
+	// =========================================================================
 	makeMove(move) {
 		const fromIndex = Chessboard.coordToIndex120(move.from)
 		const toIndex = Chessboard.coordToIndex120(move.to)
 
-		// Backup current state for undo
 		this._backup = {
 			board: [...this.boardArray120],
 			activePlayer: this.activePlayer,
@@ -304,15 +308,12 @@ class GameCopy {
 			castlingRights: structuredClone(this.castlingRights)
 		}
 
-		// Execute move (no special moves considered)
 		this.boardArray120[toIndex] = this.boardArray120[fromIndex]
 		this.boardArray120[fromIndex] = ''
 
-		// Swap active player
-		this.activePlayer = this.activePlayer === 'white' ? 'black' : 'white'
+		this.activePlayer = this.getOpponentColour(this.activePlayer)
 	}
 
-	// Undo last move
 	undoMove() {
 		if (!this._backup) return
 		this.boardArray120 = this._backup.board
@@ -321,11 +322,11 @@ class GameCopy {
 		this.castlingRights = this._backup.castlingRights
 	}
 
-	//!-------------- Game Over Check --------------
-
-	// Check if current player has any legal moves
+	// =========================================================================
+	// Game Over Check
+	// =========================================================================
 	isGameOver() {
 		const moves = this.generateMoves(this.activePlayer)
-		return moves.length === 0 // true if checkmate or stalemate
+		return moves.length === 0
 	}
 }
