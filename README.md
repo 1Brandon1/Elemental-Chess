@@ -30,28 +30,26 @@ Play instantly in your browser, no installation required.
 
 ## 🧩 Board Setup
 
--   Standard chess setup, with new pieces placed as follows:
-    -   **Fire Mage:** b1 (White) & b8 (Black)
-    -   **Water Mage:** h1 (White) & h8 (Black)
-    -   **Earth Golem:** d1 (White) & d8 (Black)
-    -   **Air Spirit:** f1 (White) & f8 (Black)
+Standard chess setup, with new pieces placed as follows:
+-   **Fire Mage:** b1 (White) & b8 (Black)
+-   **Water Mage:** h1 (White) & h8 (Black)
+-   **Earth Golem:** d1 (White) & d8 (Black)
+-   **Air Spirit:** f1 (White) & f8 (Black)
 
 ---
 
 ## ⚔️ Rules & Gameplay
 
-1. **Movement & Capture**
+### Movement & Capture
+- Standard pieces follow traditional chess rules.  
+- Elemental pieces follow their special movement rules.  
 
-    - Standard pieces follow traditional chess rules.
-    - Elemental pieces follow their special movement rules.
+### Check & Checkmate
+- Check and checkmate apply as in standard chess.  
+- Elemental abilities can create new tactical escapes.  
 
-2. **Check & Checkmate**
-
-    - Check and checkmate apply as in standard chess.
-    - Elemental abilities can create new tactical escapes.
-
-3. **Pawn Promotion**
-    - Pawns may promote to any **standard or elemental** piece.
+### Pawn Promotion
+- Pawns may promote to any **standard or elemental piece**.
 
 ---
 
